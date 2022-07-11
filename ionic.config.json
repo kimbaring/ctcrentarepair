@@ -1,0 +1,7 @@
+{
+  "name": "rentarepair",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
