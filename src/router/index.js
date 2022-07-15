@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import HomePage from '../views/HomePage.vue'
-import LoginPage from '../views/LoginPage.vue'
-import RegisterPage from '../views/RegisterPage.vue';
-import RegisterCustomer from '../views/RegisterCustomer.vue';
-import RegisterTechnician from '../views/RegisterTechnician.vue';
-import RegisterRidesharer from '../views/RegisterRideSharer.vue';
-import RegisterTowCompany from '../views/RegisterTowCompany.vue';
+import HomePage from '../views/login/HomePage.vue'
+import LoginPage from '../views/login/LoginPage.vue'
+import RegisterPage from '../views/login/RegisterPage.vue';
+import RegisterCustomer from '../views/login/RegisterCustomer.vue';
+import RegisterTechnician from '../views/login/RegisterTechnician.vue';
+import RegisterRidesharer from '../views/login/RegisterRideSharer.vue';
+import RegisterTowCompany from '../views/login/RegisterTowCompany.vue';
 
 const routes = [
   {

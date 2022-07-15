@@ -6,14 +6,14 @@
       <div class="content">
         <ion-card>
           <ion-card-header>
-            <img src="../img/logo.png" alt="">
+            <img src="@/img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
-            <ion-input placeholder="Username"></ion-input>
-            <ion-input type="password" placeholder="Password"></ion-input>
+            <ion-input v-model="login" placeholder="Username or Email"></ion-input>
+            <ion-input v-model="password" type="password" placeholder="Password"></ion-input>
             <div class="buttonflex">
                 <section>
-                <ion-button class="loginbutton" expand="block">Log in</ion-button>
+                <ion-button @click="login" class="loginbutton" expand="block">Log in</ion-button>
                 </section>
                 <section>
                 <ion-button @click="$router.push('/register')" class="signupbutton" expand="block">Register</ion-button>
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput} from '@ionic/vue';
+import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput, toastController} from '@ionic/vue';
+import { axiosReq, validateForm } from '@/functions.js';
 
 export default ({
   name: 'HomePage',
@@ -42,7 +43,59 @@ export default ({
     IonCardContent,
     IonButton,
     IonInput
+  },
+  data(){
+    return{
+      login: "",
+      password: ""
+    };
+  },
+  method:{
+    async openToast(msg, type) {
+      const toast = await toastController
+        .create({
+          message: msg,
+          color:type,
+          duration: 2000
+        })
+      return toast.present();
+    },
+    login(){
+      const login_email = (this.login.toLowerCase().match(/[a-z0-9._]+@[a-z]+\.[a-z]{2,3}/i)) ? true : false;
+      let rules = {password:{isRequired:true,minChars:8,callback:()=>{this.openToast('Password must be more than 8 characters!', 'danger')}}};
+      let input = {password:this.password, minChars:8};
+      if(login_email)
+      {
+        rules.email = {isRequired:true,isEmail:true,callback:()=>{this.openToast('Email must be in valid format!', 'danger')}}
+        input.email = this.login
+      }
+      else{
+        rules.username = {isRequired:true}
+        input.username = this.login
+      }
+      rules.callback = ()=>{this.openToast('All fields are required!', 'danger')};
+      const valid = validateForm(input,rules);
+
+      if(!valid.allValid) return;
+      // axiosReq({
+      //   method: 'post',
+      //   url: (login_email) ? 'https://localhost/kim/ciapi/api/users/login?_method=email' : 'https://localhost/kim/ciapi/api/users/login' ,
+      //   data: input
+      // }).catch(res=>{
+      //   this.openToast('Something went wrong...', 'danger');
+      // }).then(res=>{
+      //     if(res.data.msg === 'user not found') this.openToast('User not registered!', 'danger');
+      //     if(res.data.msg === 'wrong password') this.openToast('Wrong password!', 'danger');
+      //     else{   
+      //         this.openToast('Login Successful!', 'success')
+      //         router.replace('/login');
+      //     }
+      // });
+
+
+    }
   }
+
 });
 </script>
 

@@ -6,14 +6,14 @@
       <div class="content">
         <ion-card>
           <ion-card-header>
-            <img src="../img/logo.png" alt="">
+            <img src="@/img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
             <section>
               <ion-button class="loginbutton" @click="$router.push('/login')" expand="block">Sign In</ion-button>
             </section>
             <section>
-              <ion-button class="signupbutton" expand="block"><img src="../img/google.png"> Sign in with Google</ion-button>
+              <ion-button class="signupbutton" expand="block"><img src="@/img/google.png"> Sign in with Google</ion-button>
             </section>
             <section>
               <ion-button class="signupappple" expand="block"><ion-icon :icon="logoApple"></ion-icon>Sign in with Apple</ion-button>
