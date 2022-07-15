@@ -1,47 +1,51 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
-import DashboardView from '@/views/customers/DashboardView';
-import DefaultView from '@/views/customers/DefaultView';
-import CarLocation from '@/views/customers/booking/CarLocation';
-import ChooseService from '@/views/customers/booking/ChooseService';
-import BookingForm from '@/views/customers/booking/BookingForm';
-import SearchView from '@/views/customers/booking/SearchView';
+import HomePage from '../views/HomePage.vue'
+import LoginPage from '../views/LoginPage.vue'
+import RegisterPage from '../views/RegisterPage.vue';
+import RegisterCustomer from '../views/RegisterCustomer.vue';
+import RegisterTechnician from '../views/RegisterTechnician.vue';
+import RegisterRidesharer from '../views/RegisterRideSharer.vue';
+import RegisterTowCompany from '../views/RegisterTowCompany.vue';
 
 const routes = [
   {
     path: '/',
-    redirect: '/customer'
+    redirect: '/home'
   },
   {
-    path:'/customer',
-    redirect: '/customer/dashboard',
-    component: DefaultView,
-    children: [
-      {
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: DashboardView
-      },
-      {
-        path: 'car-location',
-        name: 'Car Location',
-        component: CarLocation
-      },
-      {
-        path: 'choose-service',
-        name: 'Choose Service',
-        component: ChooseService
-      },
-      {
-        path: 'booking-form',
-        name: 'Booking Form',
-        component: BookingForm
-      },
-      {
-        path: 'searching',
-        name: 'Searching',
-        component: SearchView
-      },
-    ]
+    path: '/home',
+    name: 'Home',
+    component: HomePage
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginPage
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterPage
+  },
+  {
+    path: '/registercustomer',
+    name: 'RegisterCustomer',
+    component: RegisterCustomer
+  },
+  {
+    path: '/registertechnician',
+    name: 'RegisterTechnician',
+    component: RegisterTechnician
+  },
+  {
+    path: '/registerridesharer',
+    name: 'RegisterRidesharer',
+    component: RegisterRidesharer
+  },
+  {
+    path: '/registertowcompany',
+    name: 'RegisterTowCompany',
+    component: RegisterTowCompany
   }
 ]
 
