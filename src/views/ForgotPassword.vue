@@ -9,19 +9,11 @@
             <img src="../img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
-            <ion-input placeholder="Username"></ion-input>
-            <ion-input type="password" placeholder="Password"></ion-input>
+            <ion-input placeholder="Email"></ion-input>
             <div class="buttonflex">
-                <section>
-                <ion-button class="loginbutton" expand="block">Log in</ion-button>
-                </section>
-                <section>
-                <ion-button @click="$router.push('/register')" class="signupbutton" expand="block">Register</ion-button>
-                </section>
+                <ion-button class="loginbutton" expand="block">Reset Password</ion-button>
+                <ion-button @click="$router.push('/login')" class="signupbutton" expand="block">Back</ion-button>
             </div>
-            <section>
-                <a @click="$router.push('/forgotpassword')">Forgot Password</a>
-            </section>
           </ion-card-content>
         </ion-card>
       </div>
@@ -134,10 +126,6 @@ ion-input{
     font-size: 14px;
     line-height: 16px;
     --padding-start:15px
-}
-.buttonflex{
-display: flex;
-flex-wrap: wrap;
 }
 .buttonflex section{
     width: 48%;

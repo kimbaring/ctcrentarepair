@@ -125,8 +125,9 @@ ion-button{
     text-align: center;
     position: absolute;
     top: 37px;
-    left: 0;
-    right: 0;
+    left: 5%;
+    right: 5%;
+    width: 90%;
 }
 ion-input{
     width: 277px;

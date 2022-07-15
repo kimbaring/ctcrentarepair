@@ -6,6 +6,7 @@ import RegisterCustomer from '../views/RegisterCustomer.vue';
 import RegisterTechnician from '../views/RegisterTechnician.vue';
 import RegisterRidesharer from '../views/RegisterRideSharer.vue';
 import RegisterTowCompany from '../views/RegisterTowCompany.vue';
+import ForgotPassword from '../views/ForgotPassword.vue';
 
 const routes = [
   {
@@ -46,6 +47,11 @@ const routes = [
     path: '/registertowcompany',
     name: 'RegisterTowCompany',
     component: RegisterTowCompany
+  },
+  {
+    path: '/forgotpassword',
+    name: 'ForgotPassword',
+    component: ForgotPassword
   }
 ]
 
