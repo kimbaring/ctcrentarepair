@@ -11,13 +11,13 @@
                 <p>Please fill up the form</p>
             </div>
             <div class="regforms">
-                <ion-input placeholder="Firstname"></ion-input>
-                <ion-input placeholder="Lastname"></ion-input>
-                <ion-input placeholder="Username"></ion-input>
-                <ion-input placeholder="Email"></ion-input>
-                <ion-input placeholder="Password"></ion-input>
-                <ion-input placeholder="ConfirmPassword"></ion-input>
-                <ion-button class="loginbutton" @click="$router.push('/login')" expand="block">Register</ion-button>
+                <ion-input v-model="user.firstname" placeholder="First Name"></ion-input>
+                <ion-input v-model="user.lastname" placeholder="Last Name"></ion-input>
+                <ion-input v-model="user.username" placeholder="Username"></ion-input>
+                <ion-input v-model="user.email" placeholder="Email"></ion-input>
+                <ion-input v-model="user.password" placeholder="Password"></ion-input>
+                <ion-input v-model="user.cnfpassword" placeholder="Confirm Password"></ion-input>
+                <ion-button class="loginbutton" @click="register()" expand="block">Register</ion-button>
                 <p>Already have an account? <a @click="$router.push('/login')">Sign In</a></p>
             </div>
         </ion-content>
@@ -25,8 +25,10 @@
 </template>
 
 <script>
-import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput} from '@ionic/vue';
+import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput, toastController} from '@ionic/vue';
 import {logoApple} from 'ionicons/icons';
+import {axiosReq, validateForm} from '@/functions';
+import router from '@/router';
 
 export default ({
   name: 'HomePage',
@@ -41,6 +43,70 @@ export default ({
   setup(){
     return{
       logoApple,
+    }
+  },data(){
+    return{
+        user:{role:"Customer"}
+    };
+  },
+  methods:{
+    async openToast(msg, type) {
+      const toast = await toastController
+        .create({
+          message: msg,
+          color:type,
+          duration: 2000
+        })
+      return toast.present();
+    },
+    register(){
+        const valid = validateForm(this.user,{
+            firstname: "required",
+            lastname: "required",
+            username: "required",
+            email: {
+                isEmail: true,
+                isRequired: true,
+                callback: ()=>{
+                    this.openToast('Email must be in valid format!', 'danger');
+                }  
+            },
+            password: {
+                isRequired: true,
+                minChars: 8,
+                callback: ()=>{
+                    this.openToast('Password must be more than 8 characters!', 'danger');
+                }   
+            },
+            cnfpassword: {
+                equalTo: this.user.password,
+                isRequired: true,
+                callback: ()=>{
+                    this.openToast('Password and Confirm Password must match!', 'danger');
+                }   
+            },
+            callback: ()=>{
+                this.openToast('All fields are required!', 'danger');
+            }
+        });
+
+        if(!valid.allValid) return false;
+        this.openToast('Registration is inprogress...', 'warning');
+        axiosReq({
+            method: 'post',
+            url: 'http://localhost:8080/ciapi/api/users/register',
+            data: this.user
+        }).catch(()=>{
+                this.openToast('Something went wrong...', 'danger');
+        }).then(res=>{
+            if(res.data.msg === 'duplicate user') this.openToast('Account already exists!', 'danger');
+            else{   
+                this.openToast('Registration Successful!', 'success');
+                localStorage.setItem('user_email',this.user.email);
+                router.replace('/verify-email');
+            }
+             this.user = JSON.parse("{}");  
+        });
     }
   }
 });

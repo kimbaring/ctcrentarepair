@@ -7,6 +7,7 @@ import RegisterTechnician from '../views/RegisterTechnician.vue';
 import RegisterRidesharer from '../views/RegisterRideSharer.vue';
 import RegisterTowCompany from '../views/RegisterTowCompany.vue';
 import ForgotPassword from '../views/ForgotPassword.vue';
+import VerifyEmail from '../views/VerifyEmail.vue';
 
 const routes = [
   {
@@ -52,6 +53,11 @@ const routes = [
     path: '/forgotpassword',
     name: 'ForgotPassword',
     component: ForgotPassword
+  },
+  {
+    path: '/verify-email',
+    name: 'Verify Email',
+    component: VerifyEmail
   }
 ]
 

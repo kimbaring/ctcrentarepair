@@ -9,19 +9,13 @@
             <img src="../img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
-            <ion-input v-model="loginInput" placeholder="Username"></ion-input>
-            <ion-input v-model="password" type="password" placeholder="Password"></ion-input>
-            <div class="buttonflex">
-                <section>
-                <ion-button v-on:click="login" class="loginbutton" expand="block">Log in</ion-button>
-                </section>
-                <section>
-                <ion-button @click="$router.push('/register')" class="signupbutton" expand="block">Register</ion-button>
-                </section>
+            <div class="verifmsg">
+            We sent a verification code to {{user_email}}. Please check your email and enter the code below.
             </div>
-            <section>
-                <a @click="$router.push('/forgotpassword')">Forgot Password</a>
-            </section>
+            <ion-input placeholder="6-pin digit code" v-model="verification_code"></ion-input>
+            <div class="buttonflex">
+                <ion-button class="loginbutton" expand="block" @click="verify">Verify Email</ion-button>
+            </div>
           </ion-card-content>
         </ion-card>
       </div>
@@ -30,7 +24,7 @@
 </template>
 
 <script>
-import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput, toastController} from '@ionic/vue';
+import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput,toastController} from '@ionic/vue';
 import { axiosReq, validateForm } from '@/functions';
 import router from '@/router';
 
@@ -46,10 +40,10 @@ export default ({
     IonInput
   },
   data(){
-    return{
-      loginInput: "",
-      password: ""
-    };
+    return {
+      verification_code: 0,
+      user_email: ''
+    };  
   },
   methods:{
     async openToast(msg, type) {
@@ -61,40 +55,36 @@ export default ({
         })
       return toast.present();
     },
-    login(){
-      const login_email = (this.loginInput.toLowerCase().match(/[a-z0-9._]+@[a-z]+\.[a-z]{2,3}/i)) ? true : false;
-      let rules = {password:{isRequired:true,minChars:8,callback:()=>{this.openToast('Password must be more than 8 characters!', 'danger')}}};
-      let input = {password:this.password};
-      if(login_email)
-      {
-        rules.email = {isRequired:true,isEmail:true,callback:()=>{this.openToast('Email must be in valid format!', 'danger')}}
-        input.email = this.loginInput
-      }
-      else{
-        rules.username = {isRequired:true}
-        input.username = this.loginInput
-      }
-      rules.callback = ()=>{this.openToast('All fields are required!', 'danger')};
-      
-      const valid = validateForm(input,rules);
+    verify(){
+      let valid = validateForm({verification_code:this.verification_code},
+      {verification_code:{
+        isRequired:true,
+        isInteger:true,
+        callback:()=>{this.openToast('Verification code must be a 6-digit code!', 'danger')}
+      }});
+
       if(!valid.allValid) return;
+
+
       axiosReq({
-        method: 'post',
-        url: (login_email) ? 'http://localhost:8080/ciapi/api/users/login?_method=email' : 'http://localhost:8080/ciapi/api/users/login' ,
-        data: input
-      }).catch(()=>{
-        this.openToast('Something went wrong...', 'danger');
-      }).then(res=>{
-          if(res.data.msg === 'user not found') this.openToast('User not registered!', 'danger');
-          if(res.data.msg === 'user not verified') this.openToast('User not verified!', 'danger');
-          if(res.data.msg === 'user deactivated') this.openToast('User deactivated!', 'danger');
-          if(res.data.msg === 'wrong password') this.openToast('Wrong password!', 'danger');
-          else if(res.data.success){   
-              this.openToast('Login Successful', 'success');
-              router.replace('/login');
-          }
+          method: 'post',
+          url: 'http://localhost:8080/ciapi/api/users/verify',
+          data: {
+            user_email: localStorage.getItem('user_email'),
+            verification_code: this.verification_code
+            }
+        }).then(res=>{
+        if(res.data.msg === 'invalid code') this.openToast('Invalid Code!', 'danger');
+        else if(res.data.success) {
+          this.openToast('Verification successful!', 'success');
+          localStorage.removeItem('user_email');
+          router.replace('/login');
+        }
       });
     }
+  },
+  created(){
+    this.user_email = localStorage.getItem('user_email');
   }
 });
 </script>
@@ -188,10 +178,6 @@ ion-input{
     line-height: 16px;
     --padding-start:15px
 }
-.buttonflex{
-display: flex;
-flex-wrap: wrap;
-}
 .buttonflex section{
     width: 48%;
     margin-left: 3px;
@@ -199,5 +185,10 @@ flex-wrap: wrap;
 ion-card-content section{
     text-align: center;
     text-decoration: none;
+}
+
+.verifmsg{
+  text-align: center;
+  margin: 0 0 20px;
 }
 </style>
