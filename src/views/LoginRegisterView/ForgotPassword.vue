@@ -6,7 +6,7 @@
       <div class="content">
         <ion-card>
           <ion-card-header>
-            <img src="../img/logo.png" alt="">
+            <img src="../../img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
             <ion-input placeholder="Email"></ion-input>
@@ -25,7 +25,7 @@
 import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput} from '@ionic/vue';
 
 export default ({
-  name: 'HomePage',
+  name: 'ForgotPassword',
   components: {
     IonContent,
     IonPage,

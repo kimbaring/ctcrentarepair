@@ -6,7 +6,7 @@
       <div class="content">
         <ion-card>
           <ion-card-header>
-            <img src="../img/logo.png" alt="">
+            <img src="../../img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
             <div class="verifmsg">
@@ -27,9 +27,10 @@
 import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput,toastController} from '@ionic/vue';
 import { axiosReq, validateForm } from '@/functions';
 import router from '@/router';
+import { ciapi } from '@/js/globals';
 
 export default ({
-  name: 'HomePage',
+  name: 'VerifyEmail',
   components: {
     IonContent,
     IonPage,
@@ -68,7 +69,7 @@ export default ({
 
       axiosReq({
           method: 'post',
-          url: 'http://localhost:8080/ciapi/api/users/verify',
+          url: ciapi + '/users/verify',
           data: {
             user_email: localStorage.getItem('user_email'),
             verification_code: this.verification_code

@@ -6,7 +6,7 @@
       <div class="content">
         <ion-card>
           <ion-card-header>
-            <img src="../img/logo.png" alt="">
+            <img src="../../img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
             <ion-input v-model="loginInput" placeholder="Username"></ion-input>
@@ -33,9 +33,10 @@
 import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput, toastController} from '@ionic/vue';
 import { axiosReq, validateForm } from '@/functions';
 import router from '@/router';
+import { ciapi } from '@/js/globals';
 
 export default ({
-  name: 'HomePage',
+  name: 'LoginPage',
   components: {
     IonContent,
     IonPage,
@@ -80,7 +81,7 @@ export default ({
       if(!valid.allValid) return;
       axiosReq({
         method: 'post',
-        url: (login_email) ? 'http://localhost:8080/ciapi/api/users/login?_method=email' : 'http://localhost:8080/ciapi/api/users/login' ,
+        url: (login_email) ? ciapi + '/users/login?_method=email' : ciapi +'/users/login' ,
         data: input
       }).catch(()=>{
         this.openToast('Something went wrong...', 'danger');

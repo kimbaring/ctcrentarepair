@@ -7,7 +7,7 @@
         </ion-toolbar>
         <ion-content>
             <div class="titlereg">
-                <h3>Create new account as Ride Sharer</h3>
+                <h3>Create new account as Techinician</h3>
                 <p>Please fill up the form</p>
             </div>
             <div class="regforms">
@@ -44,7 +44,7 @@ import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput,IonLis
 import {logoApple} from 'ionicons/icons';
 
 export default ({
-  name: 'HomePage',
+  name: 'RegisterTechnician',
   components: {
     IonContent,
     IonPage,

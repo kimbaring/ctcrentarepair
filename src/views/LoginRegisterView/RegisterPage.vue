@@ -6,14 +6,14 @@
       <div class="content">
         <ion-card>
           <ion-card-header>
-            <img src="../img/logo.png" alt="">
+            <img src="../../img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
                 <div class="title"><h3>Sign Up as</h3></div>
                 <section>
                     <ion-button @click="$router.push('/registercustomer')" expand="block"><div><ion-icon :icon="personCircleOutline"></ion-icon> Customer</div></ion-button>
                     <ion-button @click="$router.push('/registertechnician')" expand="block"><div><ion-icon :icon="constructOutline"></ion-icon> Technician</div></ion-button>
-                    <ion-button @click="$router.push('/registertowCompany')" expand="block"><div class="towicon"><img src="../img/tow.png"> Tow Truck Operator</div></ion-button>
+                    <ion-button @click="$router.push('/registertowCompany')" expand="block"><div class="towicon"><img src="../../img/tow.png"> Tow Truck Operator</div></ion-button>
                     <ion-button @click="$router.push('/registerridesharer')" expand="block"><div><ion-icon :icon="carOutline"></ion-icon> Ride Sharer</div></ion-button>
                 </section>
                 <p>Already have an account? <a @click="$router.push('/login')">Sign In</a></p>
@@ -29,7 +29,7 @@ import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,Ion
 import {personCircleOutline, constructOutline, carOutline} from 'ionicons/icons';
 
 export default ({
-  name: 'HomePage',
+  name: 'RegisterPage',
   components: {
     IonContent,
     IonPage,

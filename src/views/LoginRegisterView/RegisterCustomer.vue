@@ -29,9 +29,10 @@ import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput, toast
 import {logoApple} from 'ionicons/icons';
 import {axiosReq, validateForm} from '@/functions';
 import router from '@/router';
+import { ciapi } from '@/js/globals';
 
 export default ({
-  name: 'HomePage',
+  name: 'RegisterCustomer',
   components: {
     IonContent,
     IonPage,
@@ -94,7 +95,7 @@ export default ({
         this.openToast('Registration is inprogress...', 'warning');
         axiosReq({
             method: 'post',
-            url: 'http://localhost:8080/ciapi/api/users/register',
+            url: ciapi +'/users/register',
             data: this.user
         }).catch(()=>{
                 this.openToast('Something went wrong...', 'danger');

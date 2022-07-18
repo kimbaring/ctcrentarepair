@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import HomePage from '../views/HomePage.vue'
-import LoginPage from '../views/LoginPage.vue'
-import RegisterPage from '../views/RegisterPage.vue';
-import RegisterCustomer from '../views/RegisterCustomer.vue';
-import RegisterTechnician from '../views/RegisterTechnician.vue';
-import RegisterRidesharer from '../views/RegisterRideSharer.vue';
-import RegisterTowCompany from '../views/RegisterTowCompany.vue';
-import ForgotPassword from '../views/ForgotPassword.vue';
-import VerifyEmail from '../views/VerifyEmail.vue';
-
+import LoginPage from '../views/LoginRegisterView/LoginPage.vue'
+import RegisterPage from '../views/LoginRegisterView/RegisterPage.vue';
+import RegisterCustomer from '../views/LoginRegisterView/RegisterCustomer.vue';
+import RegisterTechnician from '../views/LoginRegisterView/RegisterTechnician.vue';
+import RegisterRidesharer from '../views/LoginRegisterView/RegisterRideSharer.vue';
+import RegisterTowCompany from '../views/LoginRegisterView/RegisterTowCompany.vue';
+import ForgotPassword from '../views/LoginRegisterView/ForgotPassword.vue';
+import VerifyEmail from '../views/LoginRegisterView/VerifyEmail.vue';
+import CustomerTabs from '../views/CustomerView/CustomerTabs.vue';
 const routes = [
   {
     path: '/',
@@ -58,6 +58,24 @@ const routes = [
     path: '/verify-email',
     name: 'Verify Email',
     component: VerifyEmail
+  },
+  {
+    path: '/customer/',
+    component: CustomerTabs,
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/CustomerView/CustomerDashboardView.vue')
+      },
+      {
+        path: 'transactionhistory',
+        component: () => import('@/views/CustomerView/CustomerTransactionHistoryView.vue')
+      },
+      {
+        path: 'profile',
+        component: () => import('@/views/CustomerView/CustomerProfileView.vue')
+      },
+    ]
   }
 ]
 

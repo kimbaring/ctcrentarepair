@@ -45,7 +45,7 @@ import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput,IonLis
 import {logoApple} from 'ionicons/icons';
 
 export default ({
-  name: 'HomePage',
+  name: 'RegisterTowCompany',
   components: {
     IonContent,
     IonPage,

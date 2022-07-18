@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton} from '@ionic/vue';
-import {logoApple} from 'ionicons/icons';
+import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton, IonIcon} from '@ionic/vue';
+import { logoApple } from 'ionicons/icons';
 
 export default ({
   name: 'HomePage',
@@ -40,7 +40,8 @@ export default ({
     IonCard,
     IonCardHeader,
     IonCardContent,
-    IonButton
+    IonButton,
+    IonIcon
   },
   setup(){
     return{
