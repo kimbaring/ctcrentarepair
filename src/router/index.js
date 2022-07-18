@@ -9,6 +9,10 @@ import RegisterTowCompany from '../views/LoginRegisterView/RegisterTowCompany.vu
 import ForgotPassword from '../views/LoginRegisterView/ForgotPassword.vue';
 import VerifyEmail from '../views/LoginRegisterView/VerifyEmail.vue';
 import CustomerTabs from '../views/CustomerView/CustomerTabs.vue';
+import CustomerTransactionDetailsView from '../views/CustomerView/CustomerTransactionDetailsView.vue';
+import CustomerTransactionHistoryView from '../views/CustomerView/CustomerTransactionHistoryView.vue';
+
+
 const routes = [
   {
     path: '/',
@@ -69,7 +73,14 @@ const routes = [
       },
       {
         path: 'transactionhistory',
-        component: () => import('@/views/CustomerView/CustomerTransactionHistoryView.vue')
+        component: CustomerTransactionHistoryView,
+        children:
+        [
+          {
+            path: 'transactiondetail',
+            component: CustomerTransactionDetailsView
+          },
+        ]
       },
       {
         path: 'profile',
