@@ -28,7 +28,7 @@
 import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput, toastController} from '@ionic/vue';
 import {logoApple} from 'ionicons/icons';
 import {axiosReq, validateForm} from '@/functions';
-import router from '@/router';
+// import router from '@/router';
 import { ciapi } from '@/js/globals';
 
 export default ({
@@ -101,12 +101,13 @@ export default ({
                 this.openToast('Something went wrong...', 'danger');
         }).then(res=>{
             if(res.data.msg === 'duplicate user') this.openToast('Account already exists!', 'danger');
-            else{   
-                this.openToast('Registration Successful!', 'success');
-                localStorage.setItem('user_email',this.user.email);
-                router.replace('/verify-email');
+            else{
+                console.log(res.data);   
+                // this.openToast('Registration Successful!', 'success');
+                // localStorage.setItem('user_email',this.user.email);
+                // router.replace('/verify-email');
             }
-             this.user = JSON.parse("{}");  
+             this.user = {role:"Customer"};
         });
     }
   }

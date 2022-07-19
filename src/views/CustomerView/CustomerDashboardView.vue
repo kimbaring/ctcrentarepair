@@ -132,9 +132,6 @@ import {
     IonCardContent,
     IonCardSubtitle,
     IonCardTitle,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     IonIcon
 } from '@ionic/vue';
 import { 
@@ -159,9 +156,6 @@ export default({
         IonCardContent,
         IonCardSubtitle,
         IonCardTitle,
-        IonHeader,
-        IonTitle,
-        IonToolbar,
         Swiper,
         SwiperSlide,
         IonIcon
