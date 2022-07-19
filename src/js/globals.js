@@ -1,4 +1,4 @@
-const ciapi = 'http://ns.proweaver.host/super_archive/kim/ciapi/api/';
+const ciapi = 'https://www.medicalcouriertransportation.com/rentarepair/api/';
 
 
 export { ciapi };

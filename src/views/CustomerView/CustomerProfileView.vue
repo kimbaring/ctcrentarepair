@@ -26,8 +26,7 @@
                 <span class="value">{{ user.created }}</span>
             </div>
             <ion-button expand="block">Update Profile</ion-button>
-            <!-- <span class="link" @click="logout">Log Out</span> -->
-            <span class="link" @click="$router.push('/login')">Log Out</span>
+            <span class="link" @click="logout">Log Out</span>
         </div>
     </ion-content>
 </ion-page>
@@ -80,6 +79,7 @@ export default({
                 PWAuthUser: localStorage.getItem('user_id')
             }
         }).then(res=>{
+            console.log(res.data);
             if(!res.data.success) return;
             this.user.firstname = res.data.result.user_firstname;
             this.user.middlename = res.data.result.user_middlename;
@@ -104,7 +104,7 @@ export default({
         logout(){
             axiosReq({
                 method:'post',
-                url: ciapi+'/users?user_id='+localStorage.getItem('user_id'),
+                url: ciapi+'/users/logout',
                 headers:{
                     PWAuth: localStorage.getItem('user_token'),
                     PWAuthUser: localStorage.getItem('user_id')

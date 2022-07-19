@@ -6,15 +6,18 @@
       <div class="content">
         <ion-card>
           <ion-card-header>
-            <img src="../../img/logo.png" alt="">
+            <img src="@/img/logo.png" alt="">
           </ion-card-header>
           <ion-card-content>
             <div class="verifmsg">
             We sent a verification code to {{user_email}}. Please check your email and enter the code below.
             </div>
             <ion-input placeholder="6-pin digit code" v-model="verification_code"></ion-input>
+            
             <div class="buttonflex">
                 <ion-button class="loginbutton" expand="block" @click="verify">Verify Email</ion-button>
+                <p v-if="resend_timer === 0">Did not receive the code? <span class="link" @click="resend">Resend</span></p>
+                <p v-else class="resend">Please wait for <span class="link">{{ resend_timer }}s</span> to resend...</p>
             </div>
           </ion-card-content>
         </ion-card>
@@ -26,11 +29,11 @@
 <script>
 import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput,toastController} from '@ionic/vue';
 import { axiosReq, validateForm } from '@/functions';
-import router from '@/router';
 import { ciapi } from '@/js/globals';
+import router from '@/router';
 
 export default ({
-  name: 'VerifyEmail',
+  name: 'HomePage',
   components: {
     IonContent,
     IonPage,
@@ -42,8 +45,9 @@ export default ({
   },
   data(){
     return {
-      verification_code: 0,
-      user_email: ''
+      verification_code: null,
+      user_email: '',
+      resend_timer: 0
     };  
   },
   methods:{
@@ -56,11 +60,29 @@ export default ({
         })
       return toast.present();
     },
+    resend(){
+       axiosReq({
+          method: 'post',
+          url: ciapi+'email/sendverification',
+          data: {
+            user_email: localStorage.getItem('user_email')
+            }
+        }).then(()=>{
+          this.openToast('Verification Code sent', 'success');
+          this.resend_timer = 60;
+          const timer = setInterval(()=>{
+            this.resend_timer--;
+            if(this.resend_timer == 0) clearInterval(timer);
+          }, 1000);
+      });
+    },
     verify(){
       let valid = validateForm({verification_code:this.verification_code},
       {verification_code:{
         isRequired:true,
         isInteger:true,
+        minChars: 6,
+        maxChars: 6,
         callback:()=>{this.openToast('Verification code must be a 6-digit code!', 'danger')}
       }});
 
@@ -69,7 +91,7 @@ export default ({
 
       axiosReq({
           method: 'post',
-          url: ciapi + '/users/verify',
+          url: ciapi+'users/verify',
           data: {
             user_email: localStorage.getItem('user_email'),
             verification_code: this.verification_code
@@ -79,7 +101,7 @@ export default ({
         else if(res.data.success) {
           this.openToast('Verification successful!', 'success');
           localStorage.removeItem('user_email');
-          router.replace('/customer/dashboard');
+          router.replace('/login');
         }
       });
     }
@@ -192,4 +214,10 @@ ion-card-content section{
   text-align: center;
   margin: 0 0 20px;
 }
+
+.link{
+  color:#b7170b;
+}
+
+
 </style>

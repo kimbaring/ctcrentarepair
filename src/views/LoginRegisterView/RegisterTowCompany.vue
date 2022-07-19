@@ -7,15 +7,14 @@
         </ion-toolbar>
         <ion-content>
             <div class="titlereg">
-                <h3>Create new account as Towing Truck Operator</h3>
-                <br />
+                <h3>Create new account as <br /> Tow Truck Operator</h3>
                 <p>Please fill up the form</p>
             </div>
             <div class="regforms">
-                <ion-input placeholder="Firstname"></ion-input>
-                <ion-input placeholder="Middlename"></ion-input>
-                <ion-input placeholder="Lastname"></ion-input>
-                <ion-input placeholder="Username"></ion-input>
+                <ion-input v-model="user.firstname" placeholder="First Name"></ion-input>
+                <ion-input v-model="user.middlename" placeholder="Middle Name"></ion-input>
+                <ion-input v-model="user.lastname" placeholder="Last Name"></ion-input>
+                <ion-input v-model="user.username" placeholder="Username"></ion-input>
                 <ion-list>
                     <ion-item>
                         <ion-label>EIN</ion-label>
@@ -26,13 +25,13 @@
                         <ion-radio id="toggleSSS" @click="toggleSSN" mode="md" value="SSN"></ion-radio>
                     </ion-item>
                 </ion-list>
-                <ion-input v-if="eII" placeholder="EI Number"></ion-input>
-                <ion-input v-if="sss" placeholder="SS Number"></ion-input>
-                <ion-input placeholder="Business Info"></ion-input>
-                <ion-input placeholder="Email"></ion-input>
-                <ion-input placeholder="Password"></ion-input>
-                <ion-input placeholder="ConfirmPassword"></ion-input>
-                <ion-button class="loginbutton" @click="$router.push('/login')" expand="block">Register</ion-button>
+                <ion-input v-model="user.workerinfo_ein_ssn" v-if="eII" placeholder="EI Number"></ion-input>
+                <ion-input v-model="user.workerinfo_ein_ssn" v-if="sss" placeholder="SS Number"></ion-input>
+                <ion-input v-model="user.workerinfo_businessinfo" placeholder="Business Info"></ion-input>
+                <ion-input v-model="user.email" placeholder="Email"></ion-input>
+                <ion-input v-model="user.password" type="password" placeholder="Password"></ion-input>
+                <ion-input v-model="user.cnfpassword" type="password" placeholder="Confirm Password"></ion-input>
+                <ion-button class="loginbutton" @click="register" expand="block">Register</ion-button>
 
                 <p>Already have an account? <a @click="$router.push('/login')">Sign In</a></p>
             </div>
@@ -41,11 +40,14 @@
 </template>
 
 <script>
-import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput,IonList,IonItem,IonLabel,IonRadio} from '@ionic/vue';
+import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput,IonList,IonItem,IonLabel,IonRadio,toastController} from '@ionic/vue';
 import {logoApple} from 'ionicons/icons';
+import {axiosReq, validateForm} from '@/functions';
+import { ciapi } from '@/js/globals';
+import router from '@/router';
 
 export default ({
-  name: 'RegisterTowCompany',
+  name: 'HomePage',
   components: {
     IonContent,
     IonPage,
@@ -67,7 +69,8 @@ export default ({
     return{
         eII: false,
         sss: false,
-    }
+        user: {role:"Tow Truck Operator"}
+    };
   },
   methods:{
     toggleEIN: function () {
@@ -82,6 +85,73 @@ export default ({
         this.eII = false;
         this.sss = true;
     },
+    async openToast(msg, type) {
+      const toast = await toastController
+        .create({
+          message: msg,
+          color:type,
+          duration: 2000
+        })
+      return toast.present();
+    },
+    register(){
+        const valid = validateForm(this.user,{
+            firstname: "required",
+            lastname: "required",
+            username: "required",
+            workerinfo_ein_ssn: {
+                isInteger: true,
+                isRequired: true,
+                callback: ()=>{
+                    this.openToast('EI/SS number must be an integer!', 'danger');
+                }  
+            },
+            workerinfo_businessinfo: "required",
+            email: {
+                isEmail: true,
+                isRequired: true,
+                callback: ()=>{
+                    this.openToast('Email must be in valid format!', 'danger');
+                }  
+            },
+            password: {
+                isRequired: true,
+                minChars: 8,
+                callback: ()=>{
+                    this.openToast('Password must be more than 8 characters!', 'danger');
+                }   
+            },
+            cnfpassword: {
+                equalTo: this.user.password,
+                isRequired: true,
+                callback: ()=>{
+                    this.openToast('Password and Confirm Password must match!', 'danger');
+                }   
+            },
+            callback: ()=>{
+                this.openToast('Required fields are empty!', 'danger');
+            }
+        });
+
+        if(!valid.allValid) return false;
+        delete this.user.cnfpassword;
+        this.openToast('Registration is inprogress...', 'warning');
+        axiosReq({
+            method: 'post',
+            url: ciapi+'users/register',
+            data: this.user
+        }).catch(()=>{
+                this.openToast('Something went wrong...', 'danger');
+        }).then(res=>{
+            if(res.data.msg === 'duplicate user') this.openToast('Account already exists!', 'danger');
+            else{   
+                this.openToast('Registration Successful!', 'success');
+                localStorage.setItem('user_email',this.user.email);
+                router.replace('/verify-email');
+            }
+             this.user = JSON.parse("{}");  
+        });
+    }
   }
 });
 </script>
@@ -129,6 +199,9 @@ ion-button{
     right: 5%;
     width: 90%;
 }
+
+.titlereg h3{margin-bottom: 10px;}
+
 ion-input{
     width: 277px;
     height: 51px;
@@ -145,7 +218,7 @@ ion-input{
 }
 .regforms{
     position: absolute;
-    top: 144px;
+    top: 150px;
     left: 20px;
     right: 20px;
 }

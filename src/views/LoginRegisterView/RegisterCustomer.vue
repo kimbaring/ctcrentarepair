@@ -15,11 +15,10 @@
                 <ion-input v-model="user.lastname" placeholder="Last Name"></ion-input>
                 <ion-input v-model="user.username" placeholder="Username"></ion-input>
                 <ion-input v-model="user.email" placeholder="Email"></ion-input>
-                <ion-input v-model="user.password" placeholder="Password"></ion-input>
-                <ion-input v-model="user.cnfpassword" placeholder="Confirm Password"></ion-input>
-                <!-- <ion-button class="loginbutton" @click="register()" expand="block">Register</ion-button> -->
-                <ion-button class="loginbutton" @click="$router.push('/customer/dashboard')" expand="block">Register</ion-button>
-                <p>Already have an account? <a @click="$router.push('/login')">Sign In</a></p>
+                <ion-input v-model="user.password" type="password" placeholder="Password"></ion-input>
+                <ion-input v-model="user.cnfpassword" type="password" placeholder="Confirm Password"></ion-input>
+                <ion-button class="loginbutton" @click="register()" expand="block">Register</ion-button>
+                <p>Already have an account? <a @click="register">Sign In</a></p>
             </div>
         </ion-content>
   </ion-page>

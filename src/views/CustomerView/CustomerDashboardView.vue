@@ -1,11 +1,6 @@
 <template>
 <ion-page>
     <ion-content :fullscreen="true">
-        <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
         <div class="mainlogo">
             <img src="../../img/headerlogo.png"/>
         </div>
