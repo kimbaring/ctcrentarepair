@@ -21,7 +21,7 @@
                     <p>Distance</p>
                     <p>0.5 km</p>
                 </div>
-                <ion-button routerLink="/customer/transactionhistory/profile" class="viewbutton" expand="block">View Details</ion-button>
+                <ion-button @click="$router.push('/customer/transactionhistory/transactiondetails')" class="viewbutton" expand="block">View Details</ion-button>
             </ion-card-content>
         </ion-card>
         <ion-card>
@@ -146,7 +146,7 @@ import {
     personCircleOutline,
     logOutOutline,
 } from 'ionicons/icons';
-
+import { useRouter } from "vue-router";
 
 export default({
     name: "CustomerDashboard",
@@ -167,8 +167,9 @@ export default({
             bookOutline,
             timeOutline,
             personCircleOutline,
-            logOutOutline
+            logOutOutline,
             //end of ionicons
+            router: useRouter(),
         }
     }
 });

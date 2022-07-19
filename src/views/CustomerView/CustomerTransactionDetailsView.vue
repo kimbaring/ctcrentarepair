@@ -2,6 +2,7 @@
 <ion-page>
     <ion-content>
         <div class="section">
+            <a @click="$router.push('/customer/transactionhistory')"><ion-icon :icon="arrowBack"></ion-icon></a>
             <h3>Transaction Details</h3>
         </div>
         <ion-card>
@@ -21,7 +22,6 @@
                     <p>Distance</p>
                     <p>0.5 km</p>
                 </div>
-                <ion-button class="viewbutton" expand="block">View Details</ion-button>
             </ion-card-content>
         </ion-card>
     </ion-content>
@@ -45,11 +45,12 @@ import {
     timeOutline,
     personCircleOutline,
     logOutOutline,
+    arrowBack
 } from 'ionicons/icons';
 
 
 export default({
-    name: "TransactionDetail",
+    name: "TransactionDetails",
     components:{
         IonPage,
         IonContent,
@@ -67,7 +68,8 @@ export default({
             bookOutline,
             timeOutline,
             personCircleOutline,
-            logOutOutline
+            logOutOutline,
+            arrowBack
             //end of ionicons
         }
     }
@@ -89,29 +91,8 @@ ion-header{
     right: 0;
     left: 0;
 }
-.section::before {
-  content: "";
-  position: absolute;
-  top: 150px;
-  background-color: #fff;
-  height: 50px;
-  width: 25px;
-  border-top-left-radius: 25px;
-  box-shadow: 0 -25px 0 0 #b7170b; /* This is where the magic happens! */
-}
-.section::after{
-    content: "";
-    position: absolute;
-    top: 150px;
-    background-color: #fff;
-    height: 50px;
-    width: 25px;
-    border-top-right-radius: 25px;
-    box-shadow: 0 -25px 0 0 #b7170b;
-    right: 0;
-}
 ion-content{
-    --ion-background-color: var(--ion-color-dark-contrast);
+    --ion-background-color: var(--ion-color-dark-red);
     border-radius: 30px !important;
 }
 h3{
@@ -155,5 +136,15 @@ ion-card-header{
 .viewbutton{
     --background: #b7170b;
     --background-activated: var(--ion-color-hover-red);
+}
+.section ion-icon{
+    color: #fff;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 24px;
+    position: absolute;
+    top: 30px;
+    left: 25px;
 }
 </style>

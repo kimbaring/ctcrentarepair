@@ -9,7 +9,7 @@ import RegisterTowCompany from '../views/LoginRegisterView/RegisterTowCompany.vu
 import ForgotPassword from '../views/LoginRegisterView/ForgotPassword.vue';
 import VerifyEmail from '../views/LoginRegisterView/VerifyEmail.vue';
 import CustomerTabs from '../views/CustomerView/CustomerTabs.vue';
-import CustomerTransactionDetailsView from '../views/CustomerView/CustomerTransactionDetailsView.vue';
+
 import CustomerTransactionHistoryView from '../views/CustomerView/CustomerTransactionHistoryView.vue';
 
 
@@ -64,28 +64,30 @@ const routes = [
     component: VerifyEmail
   },
   {
-    path: '/customer/',
+    path: '/customer',
     component: CustomerTabs,
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/CustomerView/CustomerDashboardView.vue')
+        path: '',
+        redirect: '/customer/dashboard',
       },
       {
-        path: 'transactionhistory',
+        path: '/customer/dashboard',
+        component: () => import('@/views/CustomerView/CustomerDashboardView.vue'),
+      },
+      {
+        path: "/customer/transactionhistory",
         component: CustomerTransactionHistoryView,
-        children:
-        [
-          {
-            path: 'transactiondetail',
-            component: CustomerTransactionDetailsView
-          },
-        ]
       },
       {
-        path: 'profile',
-        component: () => import('@/views/CustomerView/CustomerProfileView.vue')
+        path: '/customer/profile',
+        component: () => import('@/views/CustomerView/CustomerProfileView.vue'),
       },
+      {
+        path: "/customer/transactionhistory/transactiondetails",
+        component: () => import("@/views/CustomerView/CustomerTransactionDetailsView.vue")
+      }
+
     ]
   }
 ]

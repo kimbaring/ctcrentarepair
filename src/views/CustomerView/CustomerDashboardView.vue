@@ -11,7 +11,7 @@
         <div class="serv">
             <ion-card>
                 <ion-card-content>
-                    awdawdawdawdawd
+                    
                 </ion-card-content>
             </ion-card>
         </div>
@@ -58,8 +58,48 @@
                 </swiper-slide>
             </swiper>
         </div>
-        <div class="">
+        <div class="announcement">
+            <swiper>
+                <swiper-slide>
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-subtitle>Advertisement 1</ion-card-subtitle>
+                            <ion-card-title>Todays Announcement</ion-card-title>
+                        </ion-card-header>
 
+                        <ion-card-content>
+                            Keep close to Nature's heart... and break clear away, once in awhile,
+                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
+                        </ion-card-content>
+                    </ion-card>
+                </swiper-slide>
+                <swiper-slide>
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-subtitle>Advertisement 2</ion-card-subtitle>
+                            <ion-card-title>Todays Announcement</ion-card-title>
+                        </ion-card-header>
+
+                        <ion-card-content>
+                            Keep close to Nature's heart... and break clear away, once in awhile,
+                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
+                        </ion-card-content>
+                    </ion-card>
+                </swiper-slide>
+                <swiper-slide>
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-subtitle>Advertisement 3</ion-card-subtitle>
+                            <ion-card-title>Todays Announcement</ion-card-title>
+                        </ion-card-header>
+
+                        <ion-card-content>
+                            Keep close to Nature's heart... and break clear away, once in awhile,
+                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
+                        </ion-card-content>
+                    </ion-card>
+                </swiper-slide>
+            </swiper>
         </div>
     </ion-content>
 </ion-page>
