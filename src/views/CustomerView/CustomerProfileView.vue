@@ -26,7 +26,8 @@
                 <span class="value">{{ user.created }}</span>
             </div>
             <ion-button expand="block">Update Profile</ion-button>
-            <span class="link" @click="logout">Log Out</span>
+            <!-- <span class="link" @click="logout">Log Out</span> -->
+            <span class="link" @click="$router.push('/login')">Log Out</span>
         </div>
     </ion-content>
 </ion-page>
@@ -111,7 +112,7 @@ export default({
             }).catch(()=>{
                 this.openToast('Something went wrong...', 'danger');
             }).
-            then(res=>{
+            then(()=>{
                 localStorage.removeItem('user_id');
                 localStorage.removeItem('user_token');
                 router.replace('/login');
@@ -135,14 +136,14 @@ right: 50px;width: 200px;height: 200px;margin: 0 auto;border-radius: 50%;overflo
 .profile_img ion-img{width:inherit;height: inherit;border-radius: 50%;position: absolute;top: 50%;left: 50%;transform: translateX(-50%) translateY(-50%);}
 .section{
     background: var(--ion-color-dark-red);
-    height: 150px;
+    height: 200px;
     position: relative;
     top: 0;
 }
 .section::before {
   content: "";
   position: absolute;
-  top: 150px;
+  top: 200px;
   background-color: #fff;
   height: 50px;
   width: 25px;
@@ -152,7 +153,7 @@ right: 50px;width: 200px;height: 200px;margin: 0 auto;border-radius: 50%;overflo
 .section::after{
     content: "";
     position: absolute;
-    top: 150px;
+    top: 200px;
     background-color: #fff;
     height: 50px;
     width: 25px;

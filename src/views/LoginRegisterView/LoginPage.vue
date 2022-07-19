@@ -13,7 +13,8 @@
             <ion-input v-model="password" type="password" placeholder="Password"></ion-input>
             <div class="buttonflex">
                 <section>
-                <ion-button v-on:click="login" class="loginbutton" expand="block">Log in</ion-button>
+                <!-- <ion-button v-on:click="login" class="loginbutton" expand="block">Log in</ion-button> -->
+                <ion-button @click="$router.push('/customer/dashboard')" class="loginbutton" expand="block">Log in</ion-button>
                 </section>
                 <section>
                 <ion-button @click="$router.push('/register')" class="signupbutton" expand="block">Register</ion-button>
@@ -92,7 +93,7 @@ export default ({
           if(res.data.msg === 'wrong password') this.openToast('Wrong password!', 'danger');
           else if(res.data.success){   
               this.openToast('Login Successful', 'success');
-              router.replace('/login');
+              router.replace('/customer/dashboard');
           }
       });
     }

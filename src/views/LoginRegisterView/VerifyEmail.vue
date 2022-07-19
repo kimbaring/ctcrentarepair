@@ -79,7 +79,7 @@ export default ({
         else if(res.data.success) {
           this.openToast('Verification successful!', 'success');
           localStorage.removeItem('user_email');
-          router.replace('/login');
+          router.replace('/customer/dashboard');
         }
       });
     }

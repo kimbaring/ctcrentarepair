@@ -1,18 +1,40 @@
 <template>
 <ion-page>
-    <ion-header collapse="fade">
+    <ion-content :fullscreen="true">
+        <ion-header collapse="condense">
         <ion-toolbar>
-            <ion-title><img src="../../img/headerlogo.png"/></ion-title>
+          <ion-title size="large">Blank</ion-title>
         </ion-toolbar>
-    </ion-header>
-    <ion-content>
+      </ion-header>
+        <div class="mainlogo">
+            <img src="../../img/headerlogo.png"/>
+        </div>
         <h3>Hi Welcome</h3>
         <p>How we can help you today?</p>
         <div class="serv">
             <ion-card>
-                <ion-card-content>
-                    
-                </ion-card-content>
+                    <ion-card-content>
+                        <div class="services">
+                        <ion-card @click="$router.push('/customer/dashboard/location')">
+                            <ion-card-content>
+                                <ion-icon :icon="constructOutline"></ion-icon>
+                                Technician
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-card>
+                            <ion-card-content>
+                                <img src="../../img/towwhite.png">
+                                Towing
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-card>
+                            <ion-card-content>
+                                <ion-icon :icon="carSportOutline"></ion-icon>
+                                Ride Sharer
+                            </ion-card-content>
+                        </ion-card>
+                        </div>
+                    </ion-card-content>
             </ion-card>
         </div>
         <div class="announcement">
@@ -117,13 +139,16 @@ import {
     IonCardTitle,
     IonHeader,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonIcon
 } from '@ionic/vue';
 import { 
     bookOutline,
     timeOutline,
     personCircleOutline,
     logOutOutline,
+    carSportOutline,
+    constructOutline
 } from 'ionicons/icons';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
@@ -144,6 +169,7 @@ export default({
         IonToolbar,
         Swiper,
         SwiperSlide,
+        IonIcon
     },
 
     data(){
@@ -152,7 +178,9 @@ export default({
             bookOutline,
             timeOutline,
             personCircleOutline,
-            logOutOutline
+            logOutOutline,
+            carSportOutline,
+            constructOutline
             //end of ionicons
         }
     }
@@ -160,11 +188,44 @@ export default({
 </script>
 
 <style scoped>
-ion-header{
-    text-align: center;
+.mainlogo{
+    background: var(--ion-color-danger-contrast);
+    height: 150px;
+    position: relative;
+    top: 0;
+}
+.mainlogo img{
+    display: block;
+    margin: 0 auto;
+    padding-top: 60px;
+}
+.mainlogo::before {
+  content: "";
+  position: absolute;
+  top: 150px;
+  background-color: #b7170b;
+  height: 50px;
+  width: 25px;
+  border-top-left-radius: 25px;
+  box-shadow: 0 -25px 0 0 #fff; /* This is where the magic happens! */
+  z-index: -1;
+}
+.mainlogo::after{
+    content: "";
+    position: absolute;
+    top: 150px;
+    background-color: #b7170b;
+    height: 50px;
+    width: 25px;
+    border-top-right-radius: 25px;
+    box-shadow: 0 -25px 0 0 #fff;
+    right: 0;
 }
 ion-content{
     --ion-background-color: var(--ion-color-content);
+}
+ion-content h3{
+    padding-top: 20px;
 }
 .announcement h3{
     color: #fff;
@@ -181,6 +242,7 @@ ion-content p{
     background: #FFFFFF;
     border: 1px solid #FFFFFF;
     color: #000;
+    border-radius: 20px;
 }
 .announcement ion-card-title{
     color: #000;
@@ -192,6 +254,49 @@ ion-content p{
     background: #FFFFFF;
     border: 1px solid #FFFFFF;
     color: #000;
-    min-height: 400px
+    border-radius: 20px;
+}
+.serv ion-card-content{
+    padding: 0;
+}
+.services{
+    display: flex;
+    text-align: center;
+    color: #000;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+.services ion-card-content{
+    padding: 10px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #b7160b;
+    color: #ffff;
+}
+.services ion-card:hover{
+    background-color: #b7170b;
+    opacity: 0.5;
+}
+.services ion-icon{
+    display: block;
+    text-align: center;
+    font-size: 50px;
+    color: #000;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: #fff;
+}
+.services img{
+    width: 69px;
+    margin-bottom: 1px;
+    display: block;
 }
 </style>

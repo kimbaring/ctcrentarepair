@@ -65,6 +65,7 @@ const routes = [
   },
   {
     path: '/customer',
+    meta:{auth: true},
     component: CustomerTabs,
     children: [
       {
@@ -86,6 +87,18 @@ const routes = [
       {
         path: "/customer/transactionhistory/transactiondetails",
         component: () => import("@/views/CustomerView/CustomerTransactionDetailsView.vue")
+      },
+      {
+        path: "/customer/dashboard/location",
+        component: () => import("@/views/CustomerView/CustomerTechnicianLocationView.vue")
+      },
+      {
+        path: "/customer/dashboard/location/cardetails",
+        component: () => import("@/views/CustomerView/CustomerTechnicianCarDetailsView.vue")
+      },
+      {
+        path: "/customer/dashboard/location/cardetails/waiting",
+        component: () => import("@/views/CustomerView/CustomerTechnicianWaitingView.vue")
       }
 
     ]

@@ -50,12 +50,12 @@ export default ({
 <style scoped>
 *{margin: 0;padding: 0;}
 .whitebg{
-background-color: white;
-height: 25vh;
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
+  background-color: white;
+  height: 25vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 .content{
   height: 100%;

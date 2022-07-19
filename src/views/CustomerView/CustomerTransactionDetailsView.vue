@@ -38,7 +38,6 @@ import {
     IonCardContent,
     IonCardSubtitle,
     IonCardTitle,
-    IonButton,
 } from '@ionic/vue';
 import { 
     bookOutline,
@@ -59,7 +58,6 @@ export default({
         IonCardContent,
         IonCardSubtitle,
         IonCardTitle,
-        IonButton,
     },
 
     data(){

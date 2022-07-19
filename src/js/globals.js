@@ -1,4 +1,4 @@
-const ciapi = 'http://localhost/ciapi/api/';
+const ciapi = 'http://ns.proweaver.host/super_archive/kim/ciapi/api/';
 
 
 export { ciapi };
