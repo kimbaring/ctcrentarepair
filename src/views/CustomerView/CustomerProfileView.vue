@@ -9,7 +9,7 @@
         <div class="profile_view">
             <h2>{{ user.firstname }} {{ user.middlename }} {{ user.lastname }}</h2>
             <small>{{ user.role }}</small>
-            <div class="profile_grid">
+            <div class="profile_grid" >
                 <span class="field">Username</span>
                 <span class="value">{{ user.username }}</span>
             </div>
@@ -18,14 +18,10 @@
                 <span class="value">{{ user.email }}</span>
             </div>
             <div class="profile_grid">
-                <span class="field">Password</span>
-                <span class="value">{{ user.created }}</span>
-            </div>
-            <div class="profile_grid">
                 <span class="field">Joined On</span>
                 <span class="value">{{ user.created }}</span>
             </div>
-            <ion-button expand="block">Update Profile</ion-button>
+            <ion-button expand="block" @click="$router.push('/customer/profile/update')">Update Profile</ion-button>
             <span class="link" @click="logout">Log Out</span>
         </div>
     </ion-content>
@@ -71,25 +67,9 @@ export default({
         }
     },
     created(){
-        axiosReq({
-            method:'post',
-            url: ciapi+'/users?user_id='+localStorage.getItem('user_id'),
-            headers:{
-                PWAuth: localStorage.getItem('user_token'),
-                PWAuthUser: localStorage.getItem('user_id')
-            }
-        }).then(res=>{
-            console.log(res.data);
-            if(!res.data.success) return;
-            this.user.firstname = res.data.result.user_firstname;
-            this.user.middlename = res.data.result.user_middlename;
-            this.user.lastname = res.data.result.user_lastname;
-            this.user.username = res.data.result.user_username;
-            this.user.email = res.data.result.user_email;
-            this.user.role = res.data.result.user_role;
-            this.user.created = new Date(Date.parse(res.data.result.user_created_at.match('[0-9]+-[0-9]+-[0-9]+')[0])); // our Date object
-            this.user.created = this.user.created.toLocaleDateString("en-US", {month:'long',day:'numeric',year:'numeric'});
-        });
+        this.user = JSON.parse(localStorage.getItem('user_info'));
+        this.user.created = new Date(Date.parse(this.user.created.match('[0-9]+-[0-9]+-[0-9]+')[0])); // our Date object
+        this.user.created = this.user.created.toLocaleDateString("en-US", {month:'long',day:'numeric',year:'numeric'});
     },
     methods:{
         async openToast(msg, type) {

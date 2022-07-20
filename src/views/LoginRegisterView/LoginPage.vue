@@ -94,6 +94,7 @@ export default ({
               this.openToast('Login Successful', 'success');
               localStorage.setItem('user_id',res.data.user_id);
               localStorage.setItem('user_token',res.data.token);
+              localStorage.setItem('user_info', JSON.stringify(res.data.info));
               router.replace('/customer/dashboard');
           }
       });

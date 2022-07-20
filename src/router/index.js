@@ -85,6 +85,14 @@ const routes = [
         component: () => import('@/views/CustomerView/CustomerProfileView.vue'),
       },
       {
+        path: "/customer/profile/update",
+        component: () => import("@/views/CustomerView/CustomerUpdateProfile.vue")
+      },
+      {
+        path: "/customer/profile/changepassword",
+        component: () => import("@/views/CustomerView/CustomerChangePassword.vue")
+      },
+      {
         path: "/customer/transactionhistory/transactiondetails",
         component: () => import("@/views/CustomerView/CustomerTransactionDetailsView.vue")
       },

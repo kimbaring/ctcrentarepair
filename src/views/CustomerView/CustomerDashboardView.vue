@@ -4,8 +4,8 @@
         <div class="mainlogo">
             <img src="../../img/headerlogo.png"/>
         </div>
-        <h3>Hi Welcome</h3>
-        <p>How we can help you today?</p>
+        <p>Welcome, John Doe!</p>
+        <h3>How Can We Help You Today?</h3>
         <div class="serv">
             <ion-card>
                     <ion-card-content>
@@ -32,92 +32,33 @@
                     </ion-card-content>
             </ion-card>
         </div>
-        <div class="announcement">
-            <swiper>
-                <swiper-slide>
-                    <ion-card>
-                        <ion-card-header>
-                            <ion-card-subtitle>Announcement 1</ion-card-subtitle>
-                            <ion-card-title>Todays Announcement</ion-card-title>
-                        </ion-card-header>
-
-                        <ion-card-content>
-                            Keep close to Nature's heart... and break clear away, once in awhile,
-                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                        </ion-card-content>
-                    </ion-card>
-                </swiper-slide>
-                <swiper-slide>
-                    <ion-card>
-                        <ion-card-header>
-                            <ion-card-subtitle>Announcement 2</ion-card-subtitle>
-                            <ion-card-title>Todays Announcement</ion-card-title>
-                        </ion-card-header>
-
-                        <ion-card-content>
-                            Keep close to Nature's heart... and break clear away, once in awhile,
-                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                        </ion-card-content>
-                    </ion-card>
-                </swiper-slide>
-                <swiper-slide>
-                    <ion-card>
-                        <ion-card-header>
-                            <ion-card-subtitle>Announcement 3</ion-card-subtitle>
-                            <ion-card-title>Todays Announcement</ion-card-title>
-                        </ion-card-header>
-
-                        <ion-card-content>
-                            Keep close to Nature's heart... and break clear away, once in awhile,
-                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                        </ion-card-content>
-                    </ion-card>
-                </swiper-slide>
-            </swiper>
+        <div class="announcements">
+            <ion-card>
+                <ion-card-header>
+                <ion-card-title>Today's Announcement</ion-card-title>
+            </ion-card-header>
+                <ion-card-content>
+                    Keep close to Nature's heart... and break clear away, once in awhile, and climb a mountain or spend a week in the woods. Wash your spirit clean. 
+                </ion-card-content>
+            </ion-card>
+            <ion-card>
+                <ion-card-header>
+                <ion-card-title>Today's Announcement</ion-card-title>
+            </ion-card-header>
+                <ion-card-content>
+                    Keep close to Nature's heart... and break clear away, once in awhile, and climb a mountain or spend a week in the woods. Wash your spirit clean. 
+                </ion-card-content>
+            </ion-card>
+            <ion-card>
+                <ion-card-header>
+                <ion-card-title>Today's Announcement</ion-card-title>
+            </ion-card-header>
+                <ion-card-content>
+                    Keep close to Nature's heart... and break clear away, once in awhile, and climb a mountain or spend a week in the woods. Wash your spirit clean. 
+                </ion-card-content>
+            </ion-card>
         </div>
-        <div class="announcement">
-            <swiper>
-                <swiper-slide>
-                    <ion-card>
-                        <ion-card-header>
-                            <ion-card-subtitle>Advertisement 1</ion-card-subtitle>
-                            <ion-card-title>Todays Announcement</ion-card-title>
-                        </ion-card-header>
-
-                        <ion-card-content>
-                            Keep close to Nature's heart... and break clear away, once in awhile,
-                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                        </ion-card-content>
-                    </ion-card>
-                </swiper-slide>
-                <swiper-slide>
-                    <ion-card>
-                        <ion-card-header>
-                            <ion-card-subtitle>Advertisement 2</ion-card-subtitle>
-                            <ion-card-title>Todays Announcement</ion-card-title>
-                        </ion-card-header>
-
-                        <ion-card-content>
-                            Keep close to Nature's heart... and break clear away, once in awhile,
-                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                        </ion-card-content>
-                    </ion-card>
-                </swiper-slide>
-                <swiper-slide>
-                    <ion-card>
-                        <ion-card-header>
-                            <ion-card-subtitle>Advertisement 3</ion-card-subtitle>
-                            <ion-card-title>Todays Announcement</ion-card-title>
-                        </ion-card-header>
-
-                        <ion-card-content>
-                            Keep close to Nature's heart... and break clear away, once in awhile,
-                            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-                        </ion-card-content>
-                    </ion-card>
-                </swiper-slide>
-            </swiper>
-        </div>
+        
     </ion-content>
 </ion-page>
 </template>
@@ -214,36 +155,21 @@ ion-content{
     --ion-background-color: var(--ion-color-content);
 }
 ion-content h3{
-    padding-top: 20px;
-}
-.announcement h3{
     color: #fff;
-}
-ion-content h3{
-    color: #fff;
-    margin: 20px 20px 0px 20px;
+    margin: 10px auto 30px;
+    font-weight: 700;
+    text-align: center;
+    padding: 0 10px;
 }
 ion-content p{
-    color: rgb(199, 194, 194);
-    margin: 0px 20px 20px 20px;
+    margin:30px 0 0;
+    color:#fff;
+    text-align: center;
 }
-.announcement ion-card{
-    background: #FFFFFF;
-    border: 1px solid #FFFFFF;
-    color: #000;
-    border-radius: 20px;
-}
-.announcement ion-card-title{
-    color: #000;
-}
-.announcement ion-card-subtitle{
-    color: #000;
-}
+
+
 .serv ion-card{
-    background: #FFFFFF;
-    border: 1px solid #FFFFFF;
-    color: #000;
-    border-radius: 20px;
+    box-shadow: none;
 }
 .serv ion-card-content{
     padding: 0;
@@ -258,21 +184,50 @@ ion-content p{
     line-height: 24px;
     flex-wrap: wrap;
     justify-content: center;
+    gap:10px;
+    margin: 0 0 20px;
+}
 
+.services ion-card{
+    width:30%;
+    padding:20px 5px;
+    color:#fff;
+    border:none;
+    border-radius:20px;
+    background: #6b0700;
+    border:3px solid #6b0700;
+    margin: 0;
+    display: flex;
+justify-content: center;
+align-items: center;
 }
 .services ion-card-content{
-    padding: 10px;
+    
     justify-content: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #b7160b;
-    color: #ffff;
 }
 .services ion-card:hover{
-    background-color: #b7170b;
-    opacity: 0.5;
+    border:3px solid #fff;
 }
+.services ion-card::before{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translateX(-50%) translateY(-50%);
+    width:0;
+    height: 0;
+    background: rgb(255,255,255,0.4);
+    border-radius: 20px;
+    transition: 0.4s;
+}
+.services ion-card:active::before{
+    width: 300%;
+    height: 300%;
+}
+
 .services ion-icon{
     display: block;
     text-align: center;
@@ -288,4 +243,25 @@ ion-content p{
     margin-bottom: 1px;
     display: block;
 }
+
+.announcements{
+    background: #fff;
+    min-height: calc(100vh - 411px);
+    padding: 20px;
+    border-radius: 30px 30px 0 0;
+}
+
+.announcements ion-card{
+    background: #fff;
+    border:2px solid #b7160b;
+    box-shadow:none;
+    padding:10px;
+    border-radius:20px;
+}
+.announcements ion-title slot{
+    --font-weight: 700 !important;
+    color: #b7160b;
+}
+
+
 </style>
