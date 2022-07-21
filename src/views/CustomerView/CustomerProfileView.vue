@@ -1,6 +1,10 @@
 <template>
 <ion-page>
     <ion-content>
+        <ion-refresher slot="fixed" @ionRefresh="doRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+
         <div class="section">
             <div class="profile_img">
                 <ion-img></ion-img>
@@ -33,8 +37,7 @@
 import { 
     IonPage,
     IonContent,
-    IonImg,
-    toastController
+    IonImg
 } from '@ionic/vue';
 import { 
     bookOutline,
@@ -43,7 +46,7 @@ import {
     logOutOutline
 } from 'ionicons/icons';
 import router from '@/router';
-import { axiosReq } from '@/functions';
+import { axiosReq, local } from '@/functions';
 import { ciapi } from '@/js/globals';
 
 export default({
@@ -66,35 +69,28 @@ export default({
             user: {},
         }
     },
-    created(){
-        this.user = JSON.parse(localStorage.getItem('user_info'));
-        this.user.created = new Date(Date.parse(this.user.created.match('[0-9]+-[0-9]+-[0-9]+')[0])); // our Date object
+    mounted(){
+        this.user = JSON.parse(local.get('user_info'));
+        this.user.created = new Date(Date.parse(this.user.created_at.match('[0-9]+-[0-9]+-[0-9]+')[0])); // our Date object
         this.user.created = this.user.created.toLocaleDateString("en-US", {month:'long',day:'numeric',year:'numeric'});
     },
     methods:{
-        async openToast(msg, type) {
-            const toast = await toastController
-                .create({
-                message: msg,
-                color:type,
-                duration: 2000
-                })
-            return toast.present();
-        },
+       
         logout(){
             axiosReq({
                 method:'post',
                 url: ciapi+'/users/logout',
                 headers:{
-                    PWAuth: localStorage.getItem('user_token'),
-                    PWAuthUser: localStorage.getItem('user_id')
+                    PWAuth: local.get('user_token'),
+                    PWAuthUser: local.get('user_id')
                 }
             }).catch(()=>{
                 this.openToast('Something went wrong...', 'danger');
             }).
             then(()=>{
-                localStorage.removeItem('user_id');
-                localStorage.removeItem('user_token');
+                local.remove('user_id');
+                local.remove('user_token');
+                local.remove('user_info');
                 router.replace('/login');
             });
 

@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput,toastController} from '@ionic/vue';
-import { axiosReq, validateForm } from '@/functions';
+import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput} from '@ionic/vue';
+import { axiosReq, validateForm, openToast } from '@/functions';
 import { ciapi } from '@/js/globals';
 import router from '@/router';
 
@@ -51,15 +51,6 @@ export default ({
     };  
   },
   methods:{
-    async openToast(msg, type) {
-      const toast = await toastController
-        .create({
-          message: msg,
-          color:type,
-          duration: 2000
-        })
-      return toast.present();
-    },
     resend(){
        axiosReq({
           method: 'post',
@@ -68,7 +59,7 @@ export default ({
             user_email: localStorage.getItem('user_email')
             }
         }).then(()=>{
-          this.openToast('Verification Code sent', 'success');
+          openToast('Verification Code sent', 'success');
           this.resend_timer = 60;
           const timer = setInterval(()=>{
             this.resend_timer--;
@@ -83,7 +74,7 @@ export default ({
         isInteger:true,
         minChars: 6,
         maxChars: 6,
-        callback:()=>{this.openToast('Verification code must be a 6-digit code!', 'danger')}
+        callback:()=>{openToast('Verification code must be a 6-digit code!', 'danger')}
       }});
 
       if(!valid.allValid) return;
@@ -97,9 +88,9 @@ export default ({
             verification_code: this.verification_code
             }
         }).then(res=>{
-        if(res.data.msg === 'invalid code') this.openToast('Invalid Code!', 'danger');
+        if(res.data.msg === 'invalid code') openToast('Invalid Code!', 'danger');
         else if(res.data.success) {
-          this.openToast('Verification successful!', 'success');
+          openToast('Verification successful!', 'success');
           localStorage.removeItem('user_email');
           router.replace('/login');
         }

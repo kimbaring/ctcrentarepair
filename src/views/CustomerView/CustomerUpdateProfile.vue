@@ -1,6 +1,8 @@
 <template>
     <ion-page>
+
     <ion-content>
+        
         <div class="section">
             <div class="profile_img">
                 <ion-img></ion-img>
@@ -12,7 +14,7 @@
                 <ion-input v-model="user.username" placeholder="Username"></ion-input>
                 <ion-input v-model="user.email" placeholder="Email"></ion-input>
                 <ion-button expand="block" @click="$router.push('/customer/profile/changepassword')">Change Password</ion-button>
-                <ion-button expand="block" @click="resetForm">Reset Form</ion-button>
+                <ion-button expand="block" @click="reset">Reset</ion-button>
                 <ion-button expand="block" class="save" @click="save">Save</ion-button>
             </div>
         </div>
@@ -29,9 +31,9 @@ import {
     IonInput,
     IonButton
 } from '@ionic/vue';
-import { axiosReq, validateForm } from '@/functions';
-import router from '@/router';
+import { axiosReq, validateForm, openToast, local } from '@/functions';
 import { ciapi } from '@/js/globals';
+import router from '@/router';
 
 export default({
     components:{
@@ -53,23 +55,23 @@ export default({
         };
     },
     mounted(){
-        this.user = JSON.parse(localStorage.getItem('user_info'))
+        const user_info = local.getObject('user_info');
+        this.user.firstname = user_info.firstname;
+        this.user.middlename = (user_info.middlename == null) ? '' : user_info.middlename;
+        this.user.lastname = user_info.lastname;
+        this.user.username = user_info.username;
+        this.user.email = user_info.email;
     },
     methods:{
-        async openToast(msg, type) {
-            const toast = await toastController
-            .create({
-                message: msg,
-                color:type,
-                duration: 2000
-                })
-            return toast.present();
-        },
-        resetForm(){
-            this.user = JSON.parse(localStorage.getItem('user_info'))
+        reset(){
+            const user_info = local.getObject('user_info');
+            this.user.firstname = user_info.firstname;
+            this.user.middlename = (user_info.middlename == null) ? '' : user_info.middlename;
+            this.user.lastname = user_info.lastname;
+            this.user.username = user_info.username;
+            this.user.email = user_info.email;
         },
         save(){
-            console.log('test');
             const valid = validateForm(this.user,{
                 firstname: "required",
                 lastname: "required",
@@ -78,31 +80,39 @@ export default({
                     isEmail: true,
                     isRequired: true,
                     callback:()=>{
-                        this.openToast('Email must be in valid format!', 'danger')
+                        openToast('Email must be in valid format!', 'danger')
                     }
                 },
                 callback:()=>{
-                    this.openToast('Required fields are empty!', 'danger')
+                    openToast('Required fields are empty!', 'danger')
                 }
             });
 
             if(!valid.allValid) return;
-
+        
             axiosReq({
                 method: 'post',
-                url: ciapi+'users/update?user_id='+localStorage.getItem('user_id'),
+                url: ciapi+'users/update?user_id='+local.get('user_id'),
                 headers:{
-                    PWAuth: localStorage.getItem('user_token'),
-                    PWAuthUser: localStorage.getItem('user_id')
+                    PWAuth: local.get('user_token'),
+                    PWAuthUser: local.get('user_id')
                 },
                 data:this.user
-            }).catch(res=>{
-                this.openToast('Something went wrong!', 'danger')
+            }).catch(()=>{
+                openToast('Something went wrong!', 'danger');
             }).then(res=>{
                 if(res.data.success){
-                    this.openToast('Profile updated!', 'success');
-                    localStorage.setItem('user_info', JSON.stringify(this.user));
+                    openToast('Profile updated!', 'success');
+                    let user_info = local.getObject('user_info');
+                    user_info.firstname = this.user.firstname;
+                    user_info.middlename = (this.user.middlename == null) ? '' : this.user.middlename;
+                    user_info.lastname = this.user.lastname;
+                    user_info.username = this.user.username;
+                    user_info.email = this.user.email;
+                    local.set('user_info', JSON.stringify(user_info));
+                    router.go(-1);
                 }
+                else if(res.data.msg == 'invalid token') openToast('Token expired!', 'danger');
             });
 
         }

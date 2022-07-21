@@ -10,19 +10,19 @@
             <ion-card>
                     <ion-card-content>
                         <div class="services">
-                        <ion-card @click="$router.push('/customer/dashboard/location')">
+                        <ion-card @click="startService('Technician')">
                             <ion-card-content>
                                 <ion-icon :icon="constructOutline"></ion-icon>
                                 Technician
                             </ion-card-content>
                         </ion-card>
-                        <ion-card>
+                        <ion-card @click="startService('Towing')">
                             <ion-card-content>
                                 <img src="../../img/towwhite.png">
                                 Towing
                             </ion-card-content>
                         </ion-card>
-                        <ion-card>
+                        <ion-card @click="startService('Ride Sharer')">
                             <ion-card-content>
                                 <ion-icon :icon="carSportOutline"></ion-icon>
                                 Ride Sharer
@@ -71,7 +71,6 @@ import {
     IonCard,
     IonCardHeader,
     IonCardContent,
-    IonCardSubtitle,
     IonCardTitle,
     IonIcon
 } from '@ionic/vue';
@@ -83,9 +82,8 @@ import {
     carSportOutline,
     constructOutline
 } from 'ionicons/icons';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import '@ionic/vue/css/ionic-swiper.css';
+import { local } from '@/functions';
+import  router  from '@/router';
 
 export default({
     name: "CustomerDashboard",
@@ -95,10 +93,7 @@ export default({
         IonCard,
         IonCardHeader,
         IonCardContent,
-        IonCardSubtitle,
         IonCardTitle,
-        Swiper,
-        SwiperSlide,
         IonIcon
     },
 
@@ -112,6 +107,12 @@ export default({
             carSportOutline,
             constructOutline
             //end of ionicons
+        }
+    },
+    methods:{
+        startService(service){
+            local.setObject('customer_task',{service_type: service});
+            router.push('/customer/dashboard/location');
         }
     }
 });
@@ -253,7 +254,7 @@ align-items: center;
 
 .announcements ion-card{
     background: #fff;
-    border:2px solid #b7160b;
+    border:1px solid #ccc;
     box-shadow:none;
     padding:10px;
     border-radius:20px;

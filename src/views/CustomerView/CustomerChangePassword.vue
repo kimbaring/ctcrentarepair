@@ -6,10 +6,10 @@
                 <ion-img></ion-img>
             </div>
             <div class="profile_form">
-                <ion-input type="password" v-model="user.currentpassword" placeholder="Current Password"></ion-input>
-                <ion-input type="password" v-model="user.newpassword" placeholder="New Password"></ion-input>
-                <ion-input type="password" v-model="user.cnfnewpassword" placeholder="Confirm New Password"></ion-input>
-                <ion-button expand="block">Save</ion-button>
+                <ion-input type="password" v-model="user.current_password" placeholder="Current Password"></ion-input>
+                <ion-input type="password" v-model="user.new_password" placeholder="New Password"></ion-input>
+                <ion-input type="password" v-model="user.cnfnew_password" placeholder="Confirm New Password"></ion-input>
+                <ion-button @click="save" expand="block">Save</ion-button>
             </div>
         </div>
     </ion-content>
@@ -24,6 +24,8 @@ import {
     IonImg,
     IonInput
 } from '@ionic/vue';
+import {axiosReq,validateForm,openToast,local} from '@/functions';
+import {ciapi} from '@/js/globals';
 
 export default({
     components:{
@@ -37,10 +39,46 @@ export default({
             user:{}
         };
     },
-    mounted(){
-        this.user = JSON.parse(localStorage.getItem('user_info'))
-    },
     methods:{
+        save(){
+            const valid = validateForm(this.user,{
+                current_password: {
+                    isRequired: true,
+                    minChars: 8,
+                    callback: ()=>{openToast('Password must be more than 8 characters!', 'danger');}   
+                },
+                new_password: {
+                    isRequired: true,
+                    minChars: 8,
+                    callback: ()=>{openToast('Password must be more than 8 characters!', 'danger');}   
+                },
+                cnfnew_password: {
+                    equalTo: this.user.new_password,
+                    callback: ()=>{openToast('Password and Confirm Password must match!', 'danger');}
+                },
+                callback:()=>{openToast('All fields are required!', 'danger');}
+            });
+
+            if(!valid.allValid) return false;
+
+            axiosReq({
+                method: 'post',
+                url: ciapi +'/users/changePassword',
+                headers:{
+                    PWAuth: local.get('user_token'),
+                    PWAuthUser: local.get('user_id')
+                },
+                data: this.user
+            }).catch(()=>{
+                    openToast('Something went wrong...', 'danger');
+            }).then(res=>{
+                if(res.data.msg === 'wrong password') openToast('Wrong Password!', 'danger');
+                else if(res.data.success){
+                    openToast('Password Changed!', 'success');
+                }
+                this.user = {role:"Customer"};
+            });
+        }
     }
 });
 

@@ -12,30 +12,30 @@
             <div class="form">
                 <div>
                     Owner Name
-                    <ion-input placeholder="e.g. John Doe"></ion-input>
+                    <ion-input v-model="customer.name" placeholder="e.g. John Doe"></ion-input>
                 </div>
             
                 <div class="col2">
                     <div>
                         Plate No.
-                        <ion-input placeholder="e.g. XYZ123"></ion-input>
+                        <ion-input v-model="customer.plate_number" placeholder="e.g. XYZ123"></ion-input>
                     </div>
                     <div>
                         Model
-                        <ion-input placeholder="e.g. Toyota"></ion-input>
+                        <ion-input v-model="customer.model" placeholder="e.g. Toyota"></ion-input>
                     </div>
                 </div>
                 <div>
                     Brand
-                    <ion-input placeholder="e.g. Sedan"></ion-input>
+                    <ion-input v-model="customer.brand" placeholder="e.g. Sedan"></ion-input>
                 </div>
                  <div>
                     More Information
-                    <ion-textarea placeholder="e.g. Broken breaks, engine smoking, etc."></ion-textarea>
+                    <ion-textarea v-model="customer.more_information" placeholder="e.g. Broken breaks, engine smoking, etc."></ion-textarea>
                 </div>
             </div>
             <div class="submit_btn">
-                <ion-button expand="block" size="large" @click="$router.push('/customer/dashboard/location/cardetails/waiting')">Submit</ion-button>
+                <ion-button expand="block" size="large" @click="submit">Submit</ion-button>
             </div>
             
         </ion-content>
@@ -51,8 +51,13 @@ import {
     IonHeader,
     IonButtons,
     IonToolbar,
-    IonContent
+    IonContent,
+    IonInput,
+    IonTextarea
 } from '@ionic/vue';
+import {local, openToast,validateForm, axiosReq} from '@/functions';
+import router from '@/router';
+import { ciapi } from '@/js/globals';
 
 
 
@@ -64,10 +69,55 @@ export default({
         IonBackButton,
         IonButtons,
         IonToolbar,
-        IonContent
+        IonContent,
+        IonInput,
+        IonTextarea
     },
     data(){
         return{
+            customer:{}
+        }
+    },
+    methods:{
+        submit(){
+            const valid = validateForm(this.customer,{
+                name: "required",
+                plate_number: "required",
+                model: "required",
+                brand: "required",
+                callback:()=>{openToast('Required fields are empty!', 'danger')}
+            });
+            if(!valid.allValid) return;
+
+            let more_information = this.customer.more_information;
+            local.setInObject('customer_task','name', this.customer.name);
+            local.setInObject('customer_task','description', this.customer.more_information);
+            delete this.customer.more_information;
+            delete this.customer.name;
+
+            local.setInObject('customer_task','details',this.customer);
+            local.setInObject('customer_task','details',JSON.stringify(local.getObject('customer_task').details));
+
+            console.log(local.getObject('customer_task'));
+            
+
+            axiosReq({
+                method: 'post',
+                url: ciapi+'task/create',
+                headers:{
+                    PWAuth: local.get('user_token'),
+                    PWAuthUser: local.get('user_id')
+                },
+                data: local.getObject('customer_task')
+            }).catch(res=>{
+                openToast('Something went wrong', 'danger');
+            }).then(res=>{
+                if(res.data.success) openToast('Request sent!', 'success')
+            })
+
+
+            //router.push('/customer/dashboard/location/cardetails/waiting');
+
         }
     }
 });

@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput, toastController} from '@ionic/vue';
+import { IonContent, IonPage,IonBackButton,IonToolbar,IonButtons,IonInput} from '@ionic/vue';
 import {logoApple} from 'ionicons/icons';
-import {axiosReq, validateForm} from '@/functions';
+import {axiosReq, validateForm, openToast} from '@/functions';
 // import router from '@/router';
 import { ciapi } from '@/js/globals';
 
@@ -51,15 +51,6 @@ export default ({
     };
   },
   methods:{
-    async openToast(msg, type) {
-      const toast = await toastController
-        .create({
-          message: msg,
-          color:type,
-          duration: 2000
-        })
-      return toast.present();
-    },
     register(){
         const valid = validateForm(this.user,{
             firstname: "required",
@@ -69,41 +60,41 @@ export default ({
                 isEmail: true,
                 isRequired: true,
                 callback: ()=>{
-                    this.openToast('Email must be in valid format!', 'danger');
+                    openToast('Email must be in valid format!', 'danger');
                 }  
             },
             password: {
                 isRequired: true,
                 minChars: 8,
                 callback: ()=>{
-                    this.openToast('Password must be more than 8 characters!', 'danger');
+                    openToast('Password must be more than 8 characters!', 'danger');
                 }   
             },
             cnfpassword: {
                 equalTo: this.user.password,
                 isRequired: true,
                 callback: ()=>{
-                    this.openToast('Password and Confirm Password must match!', 'danger');
+                    openToast('Password and Confirm Password must match!', 'danger');
                 }   
             },
             callback: ()=>{
-                this.openToast('All fields are required!', 'danger');
+                openToast('All fields are required!', 'danger');
             }
         });
 
         if(!valid.allValid) return false;
-        this.openToast('Registration is inprogress...', 'warning');
+        openToast('Registration is inprogress...', 'warning');
         axiosReq({
             method: 'post',
             url: ciapi +'/users/register',
             data: this.user
         }).catch(()=>{
-                this.openToast('Something went wrong...', 'danger');
+                openToast('Something went wrong...', 'danger');
         }).then(res=>{
-            if(res.data.msg === 'duplicate user') this.openToast('Account already exists!', 'danger');
+            if(res.data.msg === 'duplicate user') openToast('Account already exists!', 'danger');
             else{
                 console.log(res.data);   
-                // this.openToast('Registration Successful!', 'success');
+                // openToast('Registration Successful!', 'success');
                 // localStorage.setItem('user_email',this.user.email);
                 // router.replace('/verify-email');
             }

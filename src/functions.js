@@ -1,5 +1,6 @@
 // import './jspdf.min.js';
 import axios from 'axios';
+import {toastController} from '@ionic/vue';
 
 async function axiosReq(params){
     for(let p in params){
@@ -100,6 +101,7 @@ function validateForm(obj,rules){
     return validated;
 }
 
+
 // function toPdf(selector,saveAs,marg=undefined) {
 //     var pdf = new jsPDF('p', 'pt', 'letter');
 
@@ -134,6 +136,22 @@ function validateForm(obj,rules){
 //     );
 // }
 
+async function openToast(msg, type) {
+    try {
+        await toastController.dismiss();
+    } catch(e) {
+        console.log(e);
+    }
+    
+    const toast = await toastController
+        .create({
+        message: msg,
+        color:type,
+        duration: 2000
+        })
+    return toast.present();
+}
+
 function toFormData(obj){
     var fd = new FormData();
     for(var i in obj){
@@ -143,4 +161,37 @@ function toFormData(obj){
 }
 
 
-export { axiosReq, validateForm, toFormData}; 
+class LocalStore{
+    set(key,value){localStorage.setItem(key,value);}
+    get(key){return localStorage.getItem(key);}
+    setObject(key,value){localStorage.setItem(key,JSON.stringify(value));}
+    getObject(key){return JSON.parse(localStorage.getItem(key));}
+    remove(key){localStorage.removeItem(key);}
+    setInObject(parentKey,childKey,value){
+        let parentObject = this.getObject(parentKey);
+        parentObject[childKey] = value;
+        this.setObject(parentKey,parentObject);
+    }
+    getInObject(parentKey,childKey){
+        let parentObject = this.getObject(parentKey);
+        return parentObject[childKey];
+    }
+}
+
+const local = new LocalStore();
+
+
+
+
+
+
+
+
+
+export { 
+    axiosReq,
+    validateForm,
+    toFormData,
+    openToast,
+    local
+}; 

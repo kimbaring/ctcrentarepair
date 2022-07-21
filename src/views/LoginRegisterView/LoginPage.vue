@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput, toastController} from '@ionic/vue';
-import { axiosReq, validateForm } from '@/functions';
+import { IonContent, IonPage, IonCard,IonCardHeader,IonCardContent,IonButton,IonInput} from '@ionic/vue';
+import { axiosReq, validateForm,openToast, local } from '@/functions';
 import router from '@/router';
 import { ciapi } from '@/js/globals';
 
@@ -53,29 +53,20 @@ export default ({
     };
   },
   methods:{
-    async openToast(msg, type) {
-      const toast = await toastController
-        .create({
-          message: msg,
-          color:type,
-          duration: 2000
-        })
-      return toast.present();
-    },
     login(){
       const login_email = (this.loginInput.toLowerCase().match(/[a-z0-9._]+@[a-z]+\.[a-z]{2,3}/i)) ? true : false;
-      let rules = {password:{isRequired:true,minChars:8,callback:()=>{this.openToast('Password must be more than 8 characters!', 'danger')}}};
+      let rules = {password:{isRequired:true,minChars:8,callback:()=>{openToast('Password must be more than 8 characters!', 'danger')}}};
       let input = {password:this.password};
       if(login_email)
       {
-        rules.email = {isRequired:true,isEmail:true,callback:()=>{this.openToast('Email must be in valid format!', 'danger')}}
+        rules.email = {isRequired:true,isEmail:true,callback:()=>{openToast('Email must be in valid format!', 'danger')}}
         input.email = this.loginInput
       }
       else{
         rules.username = {isRequired:true}
         input.username = this.loginInput
       }
-      rules.callback = ()=>{this.openToast('All fields are required!', 'danger')};
+      rules.callback = ()=>{openToast('All fields are required!', 'danger')};
       
       const valid = validateForm(input,rules);
       if(!valid.allValid) return;
@@ -84,17 +75,17 @@ export default ({
         url: (login_email) ? ciapi + '/users/login?_method=email' : ciapi +'/users/login' ,
         data: input
       }).catch(()=>{
-        this.openToast('Something went wrong...', 'danger');
+        openToast('Something went wrong...', 'danger');
       }).then(res=>{
-          if(res.data.msg === 'user not found') this.openToast('User not registered!', 'danger');
-          if(res.data.msg === 'user not verified') this.openToast('User not verified!', 'danger');
-          if(res.data.msg === 'user deactivated') this.openToast('User deactivated!', 'danger');
-          if(res.data.msg === 'wrong password') this.openToast('Wrong password!', 'danger');
+          if(res.data.msg === 'user not found') openToast('User not registered!', 'danger');
+          if(res.data.msg === 'user not verified') openToast('User not verified!', 'danger');
+          if(res.data.msg === 'user deactivated') openToast('User deactivated!', 'danger');
+          if(res.data.msg === 'wrong password') openToast('Wrong password!', 'danger');
           else if(res.data.success){   
-              this.openToast('Login Successful', 'success');
-              localStorage.setItem('user_id',res.data.user_id);
-              localStorage.setItem('user_token',res.data.token);
-              localStorage.setItem('user_info', JSON.stringify(res.data.info));
+              openToast('Login Successful', 'success');
+              local.set('user_id',res.data.user_id);
+              local.set('user_token',res.data.token);
+              local.setObject('user_info', res.data.info);
               router.replace('/customer/dashboard');
           }
       });

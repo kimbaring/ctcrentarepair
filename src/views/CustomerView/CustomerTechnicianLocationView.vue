@@ -16,14 +16,14 @@
             <div class="form">
                 <div class="map_search">
                     <ion-icon :icon="locationSharp"></ion-icon>
-                    <ion-input placeholder="Pin your location or input an address"></ion-input>
+                    <ion-input v-model="location" placeholder="Pin your location or input an address"></ion-input>
                 </div>
                 <div class="map_search_results">
-                    <ion-card v-for="(l,i) in resultLocations" :key="i">
+                    <ion-card v-for="(l,i) in resultLocations" :key="i" @click="location = l">
                         {{l}}
                     </ion-card>
                 </div>
-                <ion-button expand="block" size="large" @click="$router.push('/customer/dashboard/location/cardetails')">Next Step</ion-button>
+                <ion-button expand="block" size="large" @click="setLocation">Next Step</ion-button>
             </div>
             
         </ion-content>
@@ -47,6 +47,8 @@ import {
 import {    
     locationSharp,
 } from 'ionicons/icons';
+import {local,openToast} from '@/functions';
+import router from '@/router';
 
 
 
@@ -69,6 +71,7 @@ export default({
             // ionicons
             locationSharp,
             // end of ionicons
+            location: '',
             resultLocations:[
                 "123 Street Address, City Name, 123 Street Address, City Name",
                 "123 Street Address, City Name, 123 Street Address, City Name",
@@ -76,6 +79,18 @@ export default({
                 "123 Street Address, City Name, 123 Street Address, City Name"
             ],
 
+        }
+    },
+    methods:{
+        
+        setLocation(){
+            if(this.location == ''){
+                openToast('Please enter/select a location!','danger');
+                return;
+            }
+
+            local.setInObject('customer_task','location',this.location);
+            router.push('/customer/dashboard/location/cardetails');
         }
     }
 });
