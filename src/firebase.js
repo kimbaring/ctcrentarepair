@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onValue, onChildChanged, onChildAdded, onChildRemoved, child, get } from "firebase/database";
+import { getDatabase, ref, set, onValue, onChildChanged, onChildAdded, onChildRemoved, query, get, orderByChild, equalTo } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,12 +24,6 @@ function push(path,value){
     set(reference,value);
     return ref(db,path);
 }
-function refChange(path,callback){
-    onChildAdded(pull(path),data=>{
-        callback(data);
-    });
-}
-
 
 function onAdd(path,callback){onChildAdded(pull(path),data=>{
     callback(data);
@@ -41,13 +35,6 @@ function onDelete(path,callback){onChildRemoved(pull(path),data=>{
     callback(data);
 });}
 
-function getChild(path,key,equals){
-    const dbref = ref(db);
-    const que = query(ref(db,path),orderByChild(key), equalTo(local.get('user_id')));
-    get(que).then(snapshot=>{
-        if(snapshot.exists()) for(let snap in snapshot.val()) this.transactions.push(snapshot.val()[snap]);
-    });
-}
 
 export default app;
 export {
@@ -59,6 +46,9 @@ export {
     onAdd,
     onUpdate,
     onDelete,
-    getChild,
-    refChange
+    query,
+    orderByChild,
+    equalTo,
+    get,
+    getDatabase
 };
