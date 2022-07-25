@@ -3,27 +3,27 @@
         <ion-header>
             <ion-toolbar>
                 <ion-buttons slot="start">
-                    <ion-back-button defaultHref="/customer/dashboard"></ion-back-button>
+                    <ion-back-button defaultHref="/technician/tasks/taskdetails"></ion-back-button>
                 </ion-buttons>                
             </ion-toolbar>
-            <ion-title>Car Location</ion-title>
+            <ion-title>Customer Location</ion-title>
         </ion-header>
 
         <ion-content>
             <div class="map">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121979.97053401588!2d-74.10890246224842!3d40.685281845644305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25090129c363d%3A0x40c6a5770d25022b!2sStatue%20of%20Liberty!5e0!3m2!1sen!2sph!4v1657638758299!5m2!1sen!2sph"></iframe>
             </div>
-            <div class="form">
-                <div class="map_search">
-                    <ion-icon :icon="locationSharp"></ion-icon>
-                    <ion-input v-model="location" placeholder="Pin your location or input an address"></ion-input>
+            <div class="det">
+                <h3>Service Location</h3>
+                <h3>123 Sample Street, Pageland, SC</h3>
+                <div class="buttonflex">
+                    <section>
+                    <ion-button expand="block">Accept</ion-button>
+                    </section>
+                    <section>
+                    <ion-button expand="block">Decline</ion-button>
+                    </section>
                 </div>
-                <div class="map_search_results">
-                    <ion-card v-for="(l,i) in resultLocations" :key="i" @click="location = l">
-                        {{l}}
-                    </ion-card>
-                </div>
-                <ion-button expand="block" size="large" @click="setLocation">Next Step</ion-button>
             </div>
             
         </ion-content>
@@ -71,28 +71,9 @@ export default({
             // ionicons
             locationSharp,
             // end of ionicons
-            location: '',
-            resultLocations:[
-                "123 Street Address, City Name, 123 Street Address, City Name",
-                "123 Street Address, City Name, 123 Street Address, City Name",
-                "123 Street Address, City Name, 123 Street Address, City Name",
-                "123 Street Address, City Name, 123 Street Address, City Name"
-            ],
 
         }
     },
-    methods:{
-        
-        setLocation(){
-            if(this.location == ''){
-                openToast('Please enter/select a location!','danger');
-                return;
-            }
-
-            local.setInObject('customer_task','location',this.location);
-            router.push('/customer/dashboard/location/cardetails');
-        }
-    }
 });
 </script>
 
@@ -101,7 +82,7 @@ export default({
 .ion-page{min-height: 600px;}
 ion-content{--ion-background-color:#222;border-radius:20px 20px 0 0;overflow:hidden;--color:#fff}
 .map{margin: 0 -20px 10px;}
-.map iframe{width:100%;box-sizing:border-box;height:35vh;border:none}
+.map iframe{width:100%;box-sizing:border-box;height:54vh;border:none}
 .form{padding:10px;}
 .map_search{border-radius:10px;padding:5px;display:flex;background:#fff;border-radius:10px;align-items:center}
 .map_search ion-icon{font-size:30px;color:#b7160b;}
@@ -120,5 +101,17 @@ ion-toolbar{--background:#b7160b;--color:#fff}
 ion-input{--background: #fff;--color: #333;}
 .col2{display: flex;justify-content: space-between;}
 .col2 > *{width: 48%;}
-
+.buttonflex{
+    display: flex;
+    flex-wrap: wrap;
+}
+.buttonflex section{
+    width: 48%;
+}
+.buttonflex ion-button{
+    --border-radius: 10px;
+}
+.det{
+    padding-left: 20px
+}
 </style>

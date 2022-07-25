@@ -1,11 +1,6 @@
 <template>
     <ion-page>
          <ion-header>
-            <ion-toolbar>
-                <ion-buttons slot="start">
-                    <ion-back-button defaultHref="/"></ion-back-button>
-                </ion-buttons>                
-            </ion-toolbar>
             <h2>Waiting for Tow Truck Operator to Accept</h2>
         </ion-header>
         <ion-content>
@@ -20,10 +15,7 @@
 <script>
 import {
     IonPage,
-    IonBackButton,
     IonHeader,
-    IonButtons,
-    IonToolbar,
     IonContent
 } from '@ionic/vue';
 
@@ -33,9 +25,6 @@ export default({
     components:{
         IonPage,
         IonHeader,
-        IonBackButton,
-        IonButtons,
-        IonToolbar,
         IonContent
     },
     data(){

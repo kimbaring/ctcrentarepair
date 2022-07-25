@@ -9,6 +9,7 @@ import RegisterTowCompany from '../views/LoginRegisterView/RegisterTowCompany.vu
 import ForgotPassword from '../views/LoginRegisterView/ForgotPassword.vue';
 import VerifyEmail from '../views/LoginRegisterView/VerifyEmail.vue';
 import CustomerTabs from '../views/CustomerView/CustomerTabs.vue';
+import TechnicianTabs from '../views/TechnicianView/TechnicianTab.vue';
 
 import CustomerTransactionHistoryView from '../views/CustomerView/CustomerTransactionHistoryView.vue';
 
@@ -65,7 +66,6 @@ const routes = [
   },
   {
     path: '/customer',
-    meta:{auth: true},
     component: CustomerTabs,
     children: [
       {
@@ -98,17 +98,43 @@ const routes = [
       },
       {
         path: "/customer/dashboard/location",
-        component: () => import("@/views/CustomerView/CustomerTechnicianLocationView.vue")
+        component: () => import("@/views/CustomerView/CustomerLocationView.vue")
       },
       {
         path: "/customer/dashboard/location/cardetails",
-        component: () => import("@/views/CustomerView/CustomerTechnicianCarDetailsView.vue")
+        component: () => import("@/views/CustomerView/CustomerCarDetailsView.vue")
       },
       {
         path: "/customer/dashboard/location/cardetails/waiting",
         component: () => import("@/views/CustomerView/CustomerTechnicianWaitingView.vue")
       }
 
+    ]
+  },
+  {
+    path: '/technician',
+    component: TechnicianTabs,
+    children: [
+      {
+        path: '',
+        redirect: '/technician/dashboard',
+      },
+      {
+        path: '/technician/dashboard',
+        component: () => import('@/views/TechnicianView/TechnicianDashboardView.vue'),
+      },
+      {
+        path: '/technician/tasks',
+        component: () => import('@/views/TechnicianView/TechnicianTaskView.vue')
+      },
+      {
+        path: '/technician/tasks/taskdetails',
+        component: () => import('@/views/TechnicianView/TechnicianTaskDetailsView.vue')
+      },
+      {
+        path: '/technician/tasks/taskdetails/location',
+        component: () => import('@/views/TechnicianView/TechnicianTaskLocationView.vue')
+      }
     ]
   }
 ]
