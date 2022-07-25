@@ -160,6 +160,19 @@ function toFormData(obj){
     return fd;
 }
 
+class DateFormat{
+    day(stringFormat,dateString){
+        let date = new Date(Date.parse(dateString.match('[0-9]+-[0-9]+-[0-9]+')[0]));
+        let months = ['January','February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        let dateFormat = stringFormat.replaceAll('%y',date.getFullYear());
+        dateFormat = dateFormat.replaceAll('%d',date.getDate());
+        dateFormat = dateFormat.replaceAll('%lm',months[date.getMonth()]);
+        dateFormat = dateFormat.replaceAll('%m',date.getMonth()+1);
+        return dateFormat;
+    }
+}
+const date = new DateFormat();
+
 
 class LocalStore{
     set(key,value){localStorage.setItem(key,value);}
@@ -175,6 +188,11 @@ class LocalStore{
     getInObject(parentKey,childKey){
         let parentObject = this.getObject(parentKey);
         return parentObject[childKey];
+    }
+    objectify(stringObj){
+        stringObj = stringObj.replaceAll('&#34;','"');
+        stringObj = JSON.parse(stringObj);
+        return stringObj;
     }
 }
 
@@ -193,5 +211,6 @@ export {
     validateForm,
     toFormData,
     openToast,
-    local
+    local,
+    date
 }; 

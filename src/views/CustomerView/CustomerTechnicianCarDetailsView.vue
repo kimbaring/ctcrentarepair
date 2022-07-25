@@ -58,6 +58,7 @@ import {
 import {local, openToast,validateForm, axiosReq} from '@/functions';
 import router from '@/router';
 import { ciapi } from '@/js/globals';
+import { push } from '@/firebase';
 
 
 
@@ -89,7 +90,6 @@ export default({
             });
             if(!valid.allValid) return;
 
-            let more_information = this.customer.more_information;
             local.setInObject('customer_task','name', this.customer.name);
             local.setInObject('customer_task','description', this.customer.more_information);
             delete this.customer.more_information;
@@ -97,9 +97,6 @@ export default({
 
             local.setInObject('customer_task','details',this.customer);
             local.setInObject('customer_task','details',JSON.stringify(local.getObject('customer_task').details));
-
-            console.log(local.getObject('customer_task'));
-            
 
             axiosReq({
                 method: 'post',
@@ -109,15 +106,16 @@ export default({
                     PWAuthUser: local.get('user_id')
                 },
                 data: local.getObject('customer_task')
-            }).catch(res=>{
+            }).catch(()=>{
                 openToast('Something went wrong', 'danger');
             }).then(res=>{
-                if(res.data.success) openToast('Request sent!', 'success')
+                if(!res.data.success) return;
+                let task = res.data.task_info;
+                task.details = local.objectify(task.details);
+                router.push('/customer/dashboard/location/cardetails/waiting');
+                push(`pending_tasks/${task.id}`,task);
+                openToast('Request sent!', 'success');
             })
-
-
-            //router.push('/customer/dashboard/location/cardetails/waiting');
-
         }
     }
 });

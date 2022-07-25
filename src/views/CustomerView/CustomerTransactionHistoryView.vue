@@ -4,126 +4,27 @@
         <div class="section">
             <h3>Transaction History</h3>
         </div>
-        <ion-card>
+        <ion-card v-for="(t,i) in transactions" :key="i">
             <ion-card-header>
                 <ion-card-title>
-                    John Doe
+                    {{ t.name }}
                 </ion-card-title>
                 <ion-card-subtitle>
-                    Ride Sharer Service
+                    {{ t.service_type }} Service
                 </ion-card-subtitle>
-                <div class="date">7/19/2022</div>
+                <div class="date">{{ t.create_at }}</div>
             </ion-card-header>
             <ion-card-content>
                 <div class="cardsection">
                     <p>Address</p>
-                    <p>123 Street Address, City Name</p>
-                    <p>Distance</p>
-                    <p>0.5 km</p>
+                    <p>{{ t.location_details }}</p>
+                    <p>Created</p>
+                    <p>{{date(t.created_at)}}</p>
                 </div>
                 <ion-button @click="$router.push('/customer/transactionhistory/transactiondetails')" class="viewbutton" expand="block">View Details</ion-button>
             </ion-card-content>
         </ion-card>
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>
-                    John Doe
-                </ion-card-title>
-                <ion-card-subtitle>
-                    Ride Sharer Service
-                </ion-card-subtitle>
-                <div class="date">7/19/2022</div>
-            </ion-card-header>
-            <ion-card-content>
-                <div class="cardsection">
-                    <p>Address</p>
-                    <p>123 Street Address, City Name</p>
-                    <p>Distance</p>
-                    <p>0.5 km</p>
-                </div>
-                <ion-button class="viewbutton" expand="block">View Details</ion-button>
-            </ion-card-content>
-        </ion-card>
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>
-                    John Doe
-                </ion-card-title>
-                <ion-card-subtitle>
-                    Ride Sharer Service
-                </ion-card-subtitle>
-                <div class="date">7/19/2022</div>
-            </ion-card-header>
-            <ion-card-content>
-                <div class="cardsection">
-                    <p>Address</p>
-                    <p>123 Street Address, City Name</p>
-                    <p>Distance</p>
-                    <p>0.5 km</p>
-                </div>
-                <ion-button class="viewbutton" expand="block">View Details</ion-button>
-            </ion-card-content>
-        </ion-card>
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>
-                    John Doe
-                </ion-card-title>
-                <ion-card-subtitle>
-                    Ride Sharer Service
-                </ion-card-subtitle>
-                <div class="date">7/19/2022</div>
-            </ion-card-header>
-            <ion-card-content>
-                <div class="cardsection">
-                    <p>Address</p>
-                    <p>123 Street Address, City Name</p>
-                    <p>Distance</p>
-                    <p>0.5 km</p>
-                </div>
-                <ion-button class="viewbutton" expand="block">View Details</ion-button>
-            </ion-card-content>
-        </ion-card>
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>
-                    John Doe
-                </ion-card-title>
-                <ion-card-subtitle>
-                    Ride Sharer Service
-                </ion-card-subtitle>
-                <div class="date">7/19/2022</div>
-            </ion-card-header>
-            <ion-card-content>
-                <div class="cardsection">
-                    <p>Address</p>
-                    <p>123 Street Address, City Name</p>
-                    <p>Distance</p>
-                    <p>0.5 km</p>
-                </div>
-                <ion-button class="viewbutton" expand="block">View Details</ion-button>
-            </ion-card-content>
-        </ion-card>
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>
-                    John Doe
-                </ion-card-title>
-                <ion-card-subtitle>
-                    Ride Sharer Service
-                </ion-card-subtitle>
-                <div class="date">7/19/2022</div>
-            </ion-card-header>
-            <ion-card-content>
-                <div class="cardsection">
-                    <p>Address</p>
-                    <p>123 Street Address, City Name</p>
-                    <p>Distance</p>
-                    <p>0.5 km</p>
-                </div>
-                <ion-button class="viewbutton" expand="block">View Details</ion-button>
-            </ion-card-content>
-        </ion-card>
+      
     </ion-content>
 </ion-page>
 </template>
@@ -146,7 +47,8 @@ import {
     personCircleOutline,
     logOutOutline,
 } from 'ionicons/icons';
-import { useRouter } from "vue-router";
+import { get, getDatabase,ref, query, orderByChild, equalTo  } from 'firebase/database';
+import {local,date} from '@/functions';
 
 export default({
     name: "CustomerDashboard",
@@ -169,8 +71,36 @@ export default({
             personCircleOutline,
             logOutOutline,
             //end of ionicons
-            router: useRouter(),
+
+            transactions:[]
         }
+    },
+    created(){
+        const db = getDatabase();
+        const que = query(ref(db,'/pending_tasks'),orderByChild('user_id'), equalTo(local.get('user_id')));
+        get(que).then(snapshot=>{
+            if(snapshot.exists()) for(let snap in snapshot.val()) this.transactions.push(snapshot.val()[snap]);
+        });
+
+
+
+    },
+    methods:{
+        date(dateString){
+            return date.day('%lm %d, %y',dateString);
+        }
+
+        // status(value,isRideSharer = false){
+        //     switch (value) {
+        //         case 1: return 'Waiting';
+        //         case 2: return 'Accepted';
+        //         case 3: 
+        //             if(isRideSharer) return 'Trip Started';
+        //             else return 'Arrived';
+        //         case 4:
+        //             return 'Completed'
+        //     }
+        // }
     }
 });
 </script>
@@ -239,9 +169,12 @@ ion-card-content{
 }
 .cardsection p{
     width: 50%;
-    margin: 8px auto;
+    margin: 5px auto;
     display:flex;
-    align-items: center
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
 }
 ion-card-header{
     background-color:#ededed;
